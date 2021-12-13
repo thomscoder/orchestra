@@ -1,4 +1,4 @@
-video#video {
+video#video, video#second-video {
     width: 480px;
     height: 240px;
     border: 1px solid;
