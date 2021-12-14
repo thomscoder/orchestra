@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { shareScreenRecording, startScreenRecording, stopScreenRecording, stopScreenSharing } from '../../scripts/ScreenCapture';
 import "../../styles/_ScreenCapture.css";
+import io from "socket.io-client";
+const ENDPOINT = process.env.ENDPOINT;
+//@ts-ignore
+const socket = io(ENDPOINT);
 
 type Props = {
     tokenId: string;
 }
-
 export default class ScreenCapture extends Component<Props> {
     private videoRef: React.RefObject<HTMLVideoElement>;
     private videoSecondRef: React.RefObject<HTMLVideoElement>;
@@ -29,11 +32,11 @@ export default class ScreenCapture extends Component<Props> {
         console.log(this.props)
     }
     startRecording() {
-        startScreenRecording(this.videoRef.current, this.options)
+        startScreenRecording(this.videoRef.current, this.options);
     }
 
     shareRecording() {
-        shareScreenRecording(this.videoSecondRef.current, this.videoRef.current, this.options);
+        shareScreenRecording(this.videoSecondRef.current, this.videoRef.current, this.options); 
     }
     
     stopSharing() {

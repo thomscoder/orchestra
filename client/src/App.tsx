@@ -1,7 +1,9 @@
 
 import './App.css';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import GetScreen from './components/Login/GetScreen';
+import GetScreen from './components/Access/GetScreen';
+
+
 
 function App() {
   return (
