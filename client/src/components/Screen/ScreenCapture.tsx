@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { shareScreenRecording, startScreenRecording, stopScreenRecording, stopScreenSharing } from '../scripts/ScreenCapture';
-import "../styles/_ScreenCapture.css";
+import { shareScreenRecording, startScreenRecording, stopScreenRecording, stopScreenSharing } from '../../scripts/ScreenCapture';
+import "../../styles/_ScreenCapture.css";
 
+type Props = {
+    tokenId: string;
+}
 
-export default class ScreenCapture extends Component {
+export default class ScreenCapture extends Component<Props> {
     private videoRef: React.RefObject<HTMLVideoElement>;
     private videoSecondRef: React.RefObject<HTMLVideoElement>;
     private options: Object;
@@ -22,7 +25,9 @@ export default class ScreenCapture extends Component {
         this.stopSharing = this.stopSharing.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
     }
-
+    componentDidMount() {
+        console.log(this.props)
+    }
     startRecording() {
         startScreenRecording(this.videoRef.current, this.options)
     }

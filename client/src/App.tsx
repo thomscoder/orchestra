@@ -1,12 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
-import ScreenCapture from './components/ScreenCapture';
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import GetScreen from './components/Login/GetScreen';
 
 function App() {
   return (
     <div className="App">
-      <ScreenCapture />
+      <Router>
+        <Routes>
+          <Route path="/" element={<GetScreen/>} />
+        </Routes>
+      </Router>
     </div>
   );
 }

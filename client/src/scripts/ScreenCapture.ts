@@ -10,7 +10,7 @@ export const startScreenRecording = async (videoRef: HTMLVideoElement |null, opt
 
 export const stopScreenRecording = async (videoRef: HTMLVideoElement |null) => {
     try {
-        let tracks = (<MediaStream>videoRef!.srcObject).getTracks();
+        let tracks = (videoRef!.srcObject as MediaStream).getTracks();
         tracks.forEach(track => track.stop());
     }
     catch (err) {
