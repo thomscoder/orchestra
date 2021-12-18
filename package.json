@@ -6,14 +6,18 @@
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon --inspect server.js"
+    "server": "nodemon --inspect server.js",
+    "client": "cd client && yarn start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "socket.io": "^4.4.0"
+    "socket.io": "^4.4.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "concurrently": "^6.5.0",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.15"
   }

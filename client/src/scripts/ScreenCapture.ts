@@ -1,7 +1,6 @@
-export const startScreenRecording = async (videoRef: HTMLVideoElement |null, options: any) => {
+export const startScreenRecording = async (options: any) => {
     try {
-        videoRef!.srcObject = await navigator.mediaDevices.getDisplayMedia(options);
-        console.log(videoRef?.srcObject);
+        return navigator.mediaDevices.getDisplayMedia(options);
     }
     catch (err) {
         console.log("Error", err);
@@ -22,7 +21,7 @@ export const stopScreenRecording = async (videoRef: HTMLVideoElement |null) => {
 export const shareScreenRecording = async (videoRef: HTMLVideoElement |null, oldVideoRef: HTMLVideoElement | null, options: any) => {
     try {
         videoRef!.srcObject = oldVideoRef!.srcObject;
-        console.log(videoRef!.srcObject);
+        console.log(String(videoRef!.srcObject));
     }
     catch (err) {
         console.log("Error", err);

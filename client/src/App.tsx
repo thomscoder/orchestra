@@ -1,16 +1,14 @@
 
-import './App.css';
+import './App.scss';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import GetScreen from './components/Access/GetScreen';
-
-
+import ScreenHomepage from './components/Access/ScreenHomepage';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<GetScreen/>} />
+          <Route path="/" element={<ScreenHomepage/>} />
         </Routes>
       </Router>
     </div>
