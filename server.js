@@ -3,8 +3,9 @@ const cors = require('cors');
 const http = require('http');
 const path = require('path');
 const dotenv = require('dotenv');
-const {v4} = require("uuid");
+const {PeerServer} = require('peer');
 const { Server } = require('socket.io');
+
 
 dotenv.config();
 
@@ -17,18 +18,24 @@ app.use("*",(req, res) => {
     res.send(res.sendFile(path.join(__dirname, "client", "build", "index.html")))
 })
 
+const peerServer = PeerServer({
+    port: 5003,
+    path: '/'
+})
 const server = http.createServer(app);
+
 const io = new Server(server, {
     cors: "*",
     methods: ["GET", "POST","PUT","PATCH","DELETE"]
 });
 
-
+let users = [];
 io.on("connection", (socket) => {
-    socket.on("join-room", (room) => {
-        socket.join(room.room);
-        socket.broadcast.emit("joined-room", room.userId);
-        console.log(`New user ${socket.id} joined the room ${room.room}`);
+    socket.on("join-room", (room, id) => {
+        socket.join(room);
+        if(id) users.unshift(id);
+        socket.broadcast.emit("joined-room", users[0]);
+        console.log(`New user ${socket.id} joined the room ${room}`);
     });
     socket.on("disconnect", () => {
         socket.broadcast.emit("User disconnected");
