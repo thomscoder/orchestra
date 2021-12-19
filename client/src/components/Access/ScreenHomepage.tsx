@@ -23,19 +23,12 @@ export default class ScreenHomepage extends Component<Props, State> {
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
-        this.inputRoomId = this.inputRoomId.bind(this);
-    }
-
-    inputRoomId(e) {
-        this.setState({
-            getScreenId: e.target.value,
-        })
     }
 
     getScreen(e) {
         e.preventDefault();
         this.setState({
-            logged: true,
+            getScreenId: this.inputRef.current!.value,
         })
     }
 
@@ -47,7 +40,7 @@ export default class ScreenHomepage extends Component<Props, State> {
     }
 
     render() {
-        if(this.state.getScreenId !== '' && this.state.logged) {
+        if(this.state.getScreenId !== '') {
             return (
                 <WatchScreen 
                     tokenId={this.state.getScreenId}
@@ -65,7 +58,7 @@ export default class ScreenHomepage extends Component<Props, State> {
             <div>
                 <form onSubmit={this.getScreen}>
                     <div id="label"><label htmlFor="get-screen">Insert token</label></div>
-                    <div id="token-id"><input type="text" name="get-screen" ref={this.inputRef} onChange={this.inputRoomId}/></div>
+                    <div id="token-id"><input type="text" name="get-screen" ref={this.inputRef}/></div>
                     <button type="submit">Get screen</button>
                     <button type="button" onClick={this.shareYourScreen}>Share your screen</button>
                 </form>

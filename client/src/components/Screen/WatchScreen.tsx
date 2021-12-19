@@ -5,9 +5,13 @@ import Peer from "peerjs";
 
 //@ts-ignore
 const socket = io(process.env.REACT_APP_ENDPOINT)
+//@ts-ignore
+const HOST = String(process.env.REACT_APP_HOST);
+//@ts-ignore
+const PORT = Number(process.env.REACT_APP_P_PORT);
 const peer = new Peer({
-    host: 'localhost',
-    port: 5003,
+    host: HOST,
+    port: PORT,
     path: '/'
 });
 
@@ -31,12 +35,24 @@ export default class WatchScreen extends Component<Props> {
             console.log(data);
         })
         peer.on('call', (call) => {
-            console.log("stream prova", call)
             call.answer();
             call.on("stream",(incomingStream) => {
                 this.getScreenRef.current!.srcObject = incomingStream;
-                console.log("stream", incomingStream);
             })
+        })
+        this.getScreenRef.current!.addEventListener("click", (e) => {
+            const target = e.target as HTMLElement;
+            const targetRect = target.getBoundingClientRect();
+
+            const x = e.clientX - targetRect.left;
+            const y = e.clientY - targetRect.top;
+            const data = {x: x, y: y, room: this.props.tokenId, leftOrRight: e.which}
+            
+            socket.emit("mouse-click", data)
+        })
+        document.addEventListener("keyup", (e) => {
+            let obj = {key: e.key, room: this.props.tokenId};
+            socket.emit("type", obj)
         })
     }
 

@@ -4,9 +4,15 @@ import "../../styles/_ScreenCapture.scss";
 import Peer from "peerjs";
 
 import io from "socket.io-client";
-const peer = new Peer({
-    host: 'localhost',
-    port: 5003,
+//@ts-ignore
+const HOST = String(process.env.REACT_APP_HOST);
+//@ts-ignore
+const PORT = Number(process.env.REACT_APP_P_PORT);
+//@ts-ignore
+const host = String(process.env.REACT_APP_HOST.split('.').join(''));
+const peer = new Peer(host,{
+    host: HOST,
+    port: PORT,
     path: '/'
 });
 
