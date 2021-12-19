@@ -10,6 +10,7 @@ It's room based so only those with the access token/key can access the live sess
 
 # Important
 
+- Currently works only with devices in the same network
 - <b>Remote control currently works only Macbook Air M1 displays. Devices with different display size might experience way different results. I'll add support to more devices really soon</b>
 
 # How to install and run it
@@ -27,5 +28,6 @@ I chose to use local ip addresses to make it easy to screen share with devices i
 
 # Current features
 
+- Installable
 - Room based sreen sharing
 - Remote control
