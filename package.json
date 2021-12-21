@@ -1,18 +1,17 @@
 {
   "name": "ecoapp",
   "version": "1.0.0",
-  "main": "index.js",
   "engines": {
-    "node": "14.x",
-    "npm": "7.12.x"
-  }
+    "node":"14.x",
+    "yarn":"1.22.x"
+  },
+  "main": "index.js",
   "repository": "https://github.com/thomscoder/ecoapp.git",
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
   "scripts": {
     "server": "nodemon --inspect server.js",
     "client": "cd client && yarn start",
-    "build": "npm run build --prefix client",
     "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
