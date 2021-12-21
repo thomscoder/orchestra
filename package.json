@@ -8,7 +8,7 @@
   "scripts": {
     "server": "nodemon --inspect server.js",
     "client": "cd client && yarn start",
-    "build": "cd client && yarn build",
+    "build": "npm run build --prefix client",
     "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
