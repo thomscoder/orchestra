@@ -1,10 +1,6 @@
 {
   "name": "orchestra",
   "version": "1.0.0",
-  "engines": {
-    "node":"14.x",
-    "yarn":"1.22.x"
-  },
   "main": "index.js",
   "repository": "https://github.com/thomscoder/ecoapp.git",
   "author": "thomscoder <moyelysian@icloud.com>",
