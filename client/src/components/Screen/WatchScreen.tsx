@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import Peer from "peerjs";
 
 //@ts-ignore
-const socket = io(process.env.REACT_APP_ENDPOINT)
+const socket = io(process.env.REACT_APP_ENDPOINT+process.env.REACT_APP_PORT)
 //@ts-ignore
 const HOST = String(process.env.REACT_APP_HOST);
 //@ts-ignore

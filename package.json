@@ -12,7 +12,7 @@
   "scripts": {
     "server": "nodemon --inspect server.js",
     "client": "cd client && yarn start",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+    "dev": "cd scripts && python3 config.py && concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
     "cors": "^2.8.5",

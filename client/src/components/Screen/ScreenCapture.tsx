@@ -18,11 +18,12 @@ const peer = new Peer(host,{
 
 declare const process: {
     env: {
-        REACT_APP_ENDPOINT: string
+        REACT_APP_ENDPOINT: string;
+        REACT_APP_PORT: number;
     }
 }
 
-const socket = io(process.env.REACT_APP_ENDPOINT);
+const socket = io(process.env.REACT_APP_ENDPOINT+process.env.REACT_APP_PORT);
 
 interface State {
     peerId: string;
