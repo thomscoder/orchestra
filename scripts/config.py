@@ -6,7 +6,7 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 peer_port = input("Digit peer port: ")
 server_ws_port = input("Digit server port: ")
-path=input("Peer server path: ")
+path="/"
 
 with open('../.env','w') as file:
     with open('../.env','r') as read_file:

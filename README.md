@@ -11,11 +11,12 @@ It's room based so only those with the access token/key can access the live sess
 # Important
 
 - Currently works only with devices in the same network
-- <b>Remote control currently works only Macbook Air M1 displays. Devices with different display size might experience way different results. I'll add support to more devices really soon</b>
 
 # How to install and run it
 
-- Requires Python
+- Requires Python 2.7
+
+- On Windows requires windows-build-tools and Visual Studio (2013 or higher)
 
 * Clone the repo
 * run <b>yarn install</b> in ./
