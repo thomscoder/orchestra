@@ -15,10 +15,11 @@ It's room based so only those with the access token/key can access the live sess
 
 # How to install and run it
 
-- Clone the repo
-- run <b>yarn install</b> in ./
-- set the environment variables in the <b>.env.samples</b> files (both in ./ and in ./client)
-- run <b>yarn dev</b> in ./
+- Requires Python
+
+* Clone the repo
+* run <b>yarn install</b> in ./
+* running <b>yarn dev</b> in ./ will trigger python script cli that will create .env files with your custom values
 
 I chose to use local ip addresses to make it easy to screen share with devices in the same network:
 
