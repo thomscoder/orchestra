@@ -51,19 +51,19 @@ export default class ScreenCapture extends Component<Props, State> {
         };
         this.videoRef = React.createRef();
         this.videoSecondRef = React.createRef();
-        this.shareRecording = this.shareRecording.bind(this);
-        this.stopSharing = this.stopSharing.bind(this);
         this.stopRecording = this.stopRecording.bind(this);
     }
     componentDidMount() {
-        console.log("PEER", peer);
         socket.emit("join-room", peer.id);
+        this.videoRef.current!.style.width = window.screen.width+'px';
+        this.videoRef.current!.style.height = window.screen.height+'px';
+        
         this.setState({
             peerId: peer.id,
         })
-        socket.on("joined-room", (users) => {
+        socket.on("joined-room", (user) => {
             this.setState({
-                users:users,
+                users:user,
             })
         })
         startScreenRecording(this.options).then((stream) => {
@@ -71,10 +71,10 @@ export default class ScreenCapture extends Component<Props, State> {
             peer.on('connection', (conn) => {
                 conn.on('data', (data) => {
                     console.log(data);
+                    peer.call(this.state.users, stream!);
                 });
                 conn.on('open', () => {
                     conn.send('hello!');
-                    peer.call(this.state.users, stream!);
                 });
             });
         });
@@ -102,8 +102,6 @@ export default class ScreenCapture extends Component<Props, State> {
             <div>
                 <video id="share-video" ref={this.videoRef} autoPlay></video>
                 <div className="buttons">
-                    <button type="button" onClick={this.shareRecording}>Invite people to join session</button>
-                    <button type="button" onClick={this.stopSharing}>Stop sharing</button>
                     <button type="button" onClick={this.stopRecording}>Stop recording</button>
                 </div>
                 <React.Fragment>

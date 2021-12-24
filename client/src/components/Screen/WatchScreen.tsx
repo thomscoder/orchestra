@@ -40,6 +40,17 @@ export default class WatchScreen extends Component<Props> {
                 this.getScreenRef.current!.srcObject = incomingStream;
             })
         })
+        if(!window.location.href.match(/localhost/)) {
+            this.getScreenRef.current!.addEventListener("mousemove",(e) => {
+                const node = e.target as HTMLElement;
+                const rect = node.getBoundingClientRect();
+                let x = e.pageX - rect.left;
+                let y = e.pageY - rect.top;
+                const data = {x, y}
+                socket.emit("mousemove",data)
+            })
+        }
+
         this.getScreenRef.current!.addEventListener("click", (e) => {
             const target = e.target as HTMLElement;
             const targetRect = target.getBoundingClientRect();

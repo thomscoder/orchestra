@@ -28,10 +28,10 @@ Trace:
 
 npm manifest: 
   {
-    "name": "ecoapp",
+    "name": "orchestra",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "https://github.com/thomscoder/ecoapp.git",
+    "repository": "https://github.com/thomscoder/orchestra.git",
     "author": "thomscoder <moyelysian@icloud.com>",
     "license": "MIT",
     "scripts": {

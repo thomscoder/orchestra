@@ -39,6 +39,12 @@ io.on("connection", (socket) => {
         console.log(`New user ${socket.id} joined the room ${room}`);
     });
 
+    socket.on("mousemove", (data) => {
+        let x = data.x;
+        let y = data.y;
+        robot.moveMouse(x, y);
+    })
+
     socket.on("mouse-click", (data) => {
         robot.moveMouse(data.x, data.y);
         if(data.leftOrRight == 1) robot.mouseClick();
@@ -53,7 +59,7 @@ io.on("connection", (socket) => {
             case "ArrowRight": robot.keyTap("right");
             break;
             case "ArrowUp": robot.keyTap("up");
-            break;iihv
+            break;
             case "ArrowDown": robot.keyTap("down");
             break;
             case "Enter": robot.keyTap("enter");

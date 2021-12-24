@@ -1,4 +1,4 @@
-# Eco
+# Orchestra
 
 I'm building this app as a project during my learning of Typescript, PWA and CyberSec.
 The goal of this app is to simplify the sharing of small live sessions across devices.
