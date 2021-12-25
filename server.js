@@ -80,6 +80,8 @@ app.use("*",(req, res) => {
     res.send(res.sendFile(path.join(__dirname, "client", "build", "index.html")))
 })
 server.listen(PORT, () => {
-    console.log("Server is up and running on port"+PORT);
+    console.log("Server is up and running on port",PORT);
+    console.log(`Serving your project at: http://localhost:${PORT}`);
+    console.log(`Connect from any device in your network by typing: http://${process.env.HOST}:${PORT}`);
 });
 

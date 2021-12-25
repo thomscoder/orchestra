@@ -1,15 +1,16 @@
 {
   "name": "orchestra",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/thomscoder/ecoapp.git",
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
   "scripts": {
     "server": "nodemon --inspect server.js",
     "client": "cd client && yarn start",
-    "dev": "cd scripts && python3 config.py && concurrently \"yarn run server\" \"yarn run client\"",
+    "dev": "cd scripts && python config.py && concurrently \"yarn run server\" \"yarn run client\"",
     "build": "cd client && yarn build",
+    "prod": "cd scripts && python config.py && cd ../client && yarn --silent build && cd .. && yarn server",
     "postinstall": "cd client && yarn install"
   },
   "dependencies": {
