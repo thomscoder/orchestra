@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
@@ -80,6 +82,8 @@ app.use("*",(req, res) => {
     res.send(res.sendFile(path.join(__dirname, "client", "build", "index.html")))
 })
 server.listen(PORT, () => {
-    console.log("Server is up and running on port"+PORT);
+    console.log("Server is up and running on port",PORT);
+    console.log(`Open in browser http://localhost:${PORT}`);
+    console.log(`Share it: http://${process.env.HOST}:${PORT}`);
 });
 
