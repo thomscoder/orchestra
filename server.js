@@ -83,7 +83,7 @@ app.use("*",(req, res) => {
 })
 server.listen(PORT, () => {
     console.log("Server is up and running on port",PORT);
-    console.log(`Open in browser http://localhost:${PORT}`);
-    console.log(`Share it: http://${process.env.HOST}:${PORT}`);
+    console.log(`Serving your project at: http://localhost:${PORT}`);
+    console.log(`Connect from any device in your network by typing: http://${process.env.HOST}:${PORT}`);
 });
 
