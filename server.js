@@ -100,7 +100,7 @@ io.on("connection", (socket) => {
 
 server.listen(PORT, () => {
     console.log("Server is up and running on port",PORT);
-    console.log(`Serving your project at: https://192.168.1.5:${PORT}`);
+    console.log(`Paste it in the 'Connect to server' field: https://192.168.1.5:${PORT}`);
     console.log(`Connect from any device in your network by typing: https://${process.env.HOST}:${PORT}`);
 });
 

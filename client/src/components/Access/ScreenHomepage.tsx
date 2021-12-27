@@ -25,13 +25,11 @@ export default class ScreenHomepage extends Component<Props, State> {
     private inputRef: React.RefObject<HTMLInputElement>;
     private ipRef: React.RefObject<HTMLInputElement>;
     private pPortRef: React.RefObject<HTMLInputElement>;
-    private nPortRef: React.RefObject<HTMLInputElement>;
     constructor(props?) {
         super(props);
         this.inputRef = React.createRef();
         this.ipRef = React.createRef();
         this.pPortRef = React.createRef();
-        this.nPortRef = React.createRef();
         this.state = {
             logged: false,
             getScreenId: '',
@@ -49,12 +47,16 @@ export default class ScreenHomepage extends Component<Props, State> {
 
     startConnection(e) {
         e.preventDefault();
-        const socket = io(`https://${this.ipRef.current!.value}:${this.nPortRef.current!.value}`);
-        const HOST = String(this.ipRef.current!.value);
+        const url = this.ipRef.current!.value
+        const ipAddress: string = url.match(/(?<=\/\/).*(?=:)/)![0];
+        console.log(ipAddress)
+        const portNumber = url.match(/(?<=:)\d+/)![0];
+        const socket = io(`https://${ipAddress}:${portNumber}`);
+        const HOST = String(ipAddress);
         //@ts-ignore
         const PORT = Number(this.pPortRef.current!.value);
         //@ts-ignore
-        const host = String(this.ipRef.current!.value.split('.').join(''));
+        const host = String(ipAddress.split('.').join(''));
         const uIp = v4();
 
         this.setState({
@@ -114,12 +116,10 @@ export default class ScreenHomepage extends Component<Props, State> {
         return (
             <div>
                 <form onSubmit={this.startConnection}>
-                    <div id="label-ip"><label htmlFor="get-ip">Insert ip</label></div>
+                    <div id="label-ip"><label htmlFor="get-ip">Connect to server</label></div>
                     <div id="ip-address"><input type="ip" name="get-ip" ref={this.ipRef}/></div>
-                    <div id="label-p-port"><label htmlFor="get-p-port">Insert p-port</label></div>
+                    <div id="label-p-port"><label htmlFor="get-p-port">Insert peer port</label></div>
                     <div id="p-ort"><input type="p-port" name="get-p-port" ref={this.pPortRef}/></div>
-                    <div id="label-n-port"><label htmlFor="get-n-port">Insert n-port</label></div>
-                    <div id="n-port"><input type="n-port" name="get-n-port" ref={this.nPortRef}/></div>
                     <button type="submit">Server</button>
                 </form>
                 <form onSubmit={this.getScreen}>

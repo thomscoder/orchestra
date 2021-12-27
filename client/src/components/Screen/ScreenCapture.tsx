@@ -56,7 +56,7 @@ export default class ScreenCapture extends Component<Props, State> {
                     this.props.peer.call(this.state.users, stream!);
                 });
                 conn.on('open', () => {
-                    conn.send('hello!');
+                    conn.send('Data ok!');
                 });
             });
         });
