@@ -4,26 +4,9 @@ import "../../styles/_ScreenCapture.scss";
 import Peer from "peerjs";
 
 import io from "socket.io-client";
-//@ts-ignore
-const HOST = String(process.env.REACT_APP_HOST);
-//@ts-ignore
-const PORT = Number(process.env.REACT_APP_P_PORT);
-//@ts-ignore
-const host = String(process.env.REACT_APP_HOST.split('.').join(''));
-const peer = new Peer(host,{
-    host: HOST,
-    port: PORT,
-    path: '/'
-});
 
-declare const process: {
-    env: {
-        REACT_APP_ENDPOINT: string;
-        REACT_APP_PORT: number;
-    }
-}
 
-const socket = io(process.env.REACT_APP_ENDPOINT+process.env.REACT_APP_PORT);
+
 
 interface State {
     peerId: string;
@@ -31,10 +14,13 @@ interface State {
 }
 interface Props {
     userID: string;
+    socket?: any;
+    peer?: any;
 }
 export default class ScreenCapture extends Component<Props, State> {
     private videoRef: React.RefObject<HTMLVideoElement>;
     private videoSecondRef: React.RefObject<HTMLVideoElement>;
+    private socket: any;
     private options: Object;
     public peer: any;
     constructor(props?: any) {
@@ -54,24 +40,24 @@ export default class ScreenCapture extends Component<Props, State> {
         this.stopRecording = this.stopRecording.bind(this);
     }
     componentDidMount() {
-        socket.emit("join-room", peer.id);
+        this.props.socket.emit("join-room", this.props.peer.id);
         this.videoRef.current!.style.width = window.screen.width+'px';
         this.videoRef.current!.style.height = window.screen.height+'px';
         
         this.setState({
-            peerId: peer.id,
+            peerId: this.props.peer.id,
         })
-        socket.on("joined-room", (user) => {
+        this.props.socket.on("joined-room", (user) => {
             this.setState({
                 users:user,
             })
         })
         startScreenRecording(this.options).then((stream) => {
             this.videoRef.current!.srcObject = stream!;
-            peer.on('connection', (conn) => {
+            this.props.peer.on('connection', (conn) => {
                 conn.on('data', (data) => {
                     console.log(data);
-                    peer.call(this.state.users, stream!);
+                    this.props.peer.call(this.state.users, stream!);
                 });
                 conn.on('open', () => {
                     conn.send('hello!');

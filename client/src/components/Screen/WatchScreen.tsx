@@ -17,6 +17,7 @@ const peer = new Peer({
 
 interface Props {
     tokenId: string;
+    socket?: any;
 }
 
 export default class WatchScreen extends Component<Props> {
