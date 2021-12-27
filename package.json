@@ -2,11 +2,14 @@
   "name": "orchestra",
   "version": "1.0.0",
   "main": "server.js",
+  "bin": {
+    "play": "./cli/config.js"
+  },
   "repository": "https://github.com/thomscoder/ecoapp.git",
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon --inspect server.js",
+    "server": "nodemon -q server.js",
     "client": "cd client && yarn start",
     "dev": "cd scripts && python config.py && concurrently \"yarn run server\" \"yarn run client\"",
     "build": "cd client && yarn build",
@@ -17,8 +20,10 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "peer": "^0.6.1",
+    "prompt-sync": "^4.2.0",
     "robotjs": "^0.6.0",
-    "socket.io": "^4.4.0"
+    "socket.io": "^4.4.0",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "concurrently": "^6.5.0",
