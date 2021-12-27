@@ -2,18 +2,28 @@
 
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
+const https = require('https');
 const path = require('path');
 const dotenv = require('dotenv');
 const { PeerServer } = require('peer');
 const { Server } = require('socket.io');
 const robot = require('robotjs');
+const fs = require('fs');
 
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5001
 const app = express();
+
+// HTTPS local certificates
+const certKey = String(process.env.CERTKEY);
+const certIp = String(process.env.CERT)
+
+const options = {
+    key: fs.readFileSync(certKey),
+    cert: fs.readFileSync(certIp),
+}
 
 app.use(cors({
     origin: "*",
@@ -23,9 +33,15 @@ app.use(cors({
 
 const peerServer = PeerServer({
     port: process.env.P_PORT,
-    path: '/'
+    path: '/',
+    ssl: {
+        key: fs.readFileSync(certKey),
+        cert: fs.readFileSync(certIp),
+    }
 })
-const server = http.createServer(app);
+
+// Start https server
+const server = https.createServer(options, app);
 
 const io = new Server(server, {
     cors: "*",
@@ -83,7 +99,7 @@ app.use("*",(req, res) => {
 })
 server.listen(PORT, () => {
     console.log("Server is up and running on port",PORT);
-    console.log(`Serving your project at: http://localhost:${PORT}`);
-    console.log(`Connect from any device in your network by typing: http://${process.env.HOST}:${PORT}`);
+    console.log(`Serving your project at: https://192.168.1.5:${PORT}`);
+    console.log(`Connect from any device in your network by typing: https://${process.env.HOST}:${PORT}`);
 });
 

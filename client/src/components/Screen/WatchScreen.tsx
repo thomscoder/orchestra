@@ -3,21 +3,10 @@ import "../../styles/_ScreenCapture.scss";
 import io from "socket.io-client";
 import Peer from "peerjs";
 
-//@ts-ignore
-const socket = io(process.env.REACT_APP_ENDPOINT+process.env.REACT_APP_PORT)
-//@ts-ignore
-const HOST = String(process.env.REACT_APP_HOST);
-//@ts-ignore
-const PORT = Number(process.env.REACT_APP_P_PORT);
-const peer = new Peer({
-    host: HOST,
-    port: PORT,
-    path: '/'
-});
-
 interface Props {
     tokenId: string;
     socket?: any;
+    peer?: any;
 }
 
 export default class WatchScreen extends Component<Props> {
@@ -27,15 +16,16 @@ export default class WatchScreen extends Component<Props> {
         this.getScreenRef = React.createRef();
     }
     componentDidMount() {
-        let connection = peer.connect(this.props.tokenId)
+        let connection = this.props.peer.connect(this.props.tokenId);
+        console.log(this.props.peer, connection);
         connection.on('open', () => {
-            socket.emit("join-room", this.props.tokenId, peer.id);
+            this.props.socket.emit("join-room", this.props.tokenId, this.props.peer.id);
             connection.send("Hello");
         });
         connection.on("data", (data) => {
             console.log(data);
         })
-        peer.on('call', (call) => {
+        this.props.peer.on('call', (call) => {
             call.answer();
             call.on("stream",(incomingStream) => {
                 this.getScreenRef.current!.srcObject = incomingStream;
@@ -48,7 +38,7 @@ export default class WatchScreen extends Component<Props> {
                 let x = e.pageX - rect.left;
                 let y = e.pageY - rect.top;
                 const data = {x, y}
-                socket.emit("mousemove",data)
+                this.props.socket.emit("mousemove",data)
             })
         }
 
@@ -60,16 +50,12 @@ export default class WatchScreen extends Component<Props> {
             const y = e.clientY - targetRect.top;
             const data = {x: x, y: y, room: this.props.tokenId, leftOrRight: e.which}
             
-            socket.emit("mouse-click", data)
+            this.props.socket.emit("mouse-click", data)
         })
         document.addEventListener("keyup", (e) => {
             let obj = {key: e.key, room: this.props.tokenId};
-            socket.emit("type", obj)
+            this.props.socket.emit("type", obj)
         })
-    }
-
-    componentDidUpdate() {
-        
     }
 
     render() {

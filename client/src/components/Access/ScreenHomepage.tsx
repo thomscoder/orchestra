@@ -14,7 +14,9 @@ interface State {
     userID: string;
     getScreenId: string;
     socket: any;
-    peer: any;
+    p_port: any;
+    host: any;
+    ipMod: any;
 }
 export default class ScreenHomepage extends Component<Props, State> {
     private inputRef: React.RefObject<HTMLInputElement>;
@@ -32,7 +34,9 @@ export default class ScreenHomepage extends Component<Props, State> {
             getScreenId: '',
             userID: "",
             socket: undefined,
-            peer: undefined,
+            host: undefined,
+            p_port: undefined,
+            ipMod: undefined,
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
@@ -41,20 +45,18 @@ export default class ScreenHomepage extends Component<Props, State> {
 
     startConnection(e) {
         e.preventDefault();
-        const socket = io(`http://${this.ipRef.current!.value}:${this.nPortRef.current!.value}`);
+        const socket = io(`https://${this.ipRef.current!.value}:${this.nPortRef.current!.value}`);
         const HOST = String(this.ipRef.current!.value);
         //@ts-ignore
         const PORT = Number(this.pPortRef.current!.value);
         //@ts-ignore
         const host = String(this.ipRef.current!.value.split('.').join(''));
-        const peer = new Peer(host,{
-            host: HOST,
-            port: PORT,
-            path: '/'
-        });
+
         this.setState({
             socket: socket,
-            peer: peer,
+            ipMod: host,
+            host: HOST,
+            p_port: PORT,
         })
 
         console.log(socket);
@@ -80,6 +82,11 @@ export default class ScreenHomepage extends Component<Props, State> {
                 <WatchScreen 
                     tokenId={this.state.getScreenId}
                     socket={this.state.socket}
+                    peer ={new Peer({
+                        host: this.state.host,
+                        port: this.state.p_port,
+                        path: "/"
+                    })}
                 />
             )
         }
@@ -88,7 +95,11 @@ export default class ScreenHomepage extends Component<Props, State> {
                 <ScreenCapture 
                     socket={this.state.socket}
                     userID={this.state.userID}
-                    peer={this.state.peer}
+                    peer={new Peer(this.state.ipMod, {
+                        host: this.state.host,
+                        port: this.state.p_port,
+                        path:"/"
+                    })}
                 />
             )
         }

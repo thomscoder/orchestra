@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { shareScreenRecording, startScreenRecording, stopScreenRecording, stopScreenSharing } from '../../scripts/ScreenCapture';
 import "../../styles/_ScreenCapture.scss";
-import Peer from "peerjs";
-
-import io from "socket.io-client";
-
-
-
 
 interface State {
     peerId: string;
