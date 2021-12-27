@@ -11,7 +11,7 @@ let setEnv = async () => {
         let path = "/"
         let p_port = prompt("Peer server port: ");
         let port = prompt("Node server port: ");
-        const envServer = `\nHOST=${ip} \nPATH=${path} \nPORT=${port} \nP_PORT=${p_port} \nCERTKEY=./certficates/${ip}-key.pem \nCERT=./certificates/${ip}.pem`
+        const envServer = `\nHOST=${ip} \nPATH=${path} \nPORT=${port} \nP_PORT=${p_port} \nCERTKEY=${ip}-key.pem \nCERT=${ip}.pem`
         fs.writeFile('.env', envServer, (err) => {
             if(err !== null) return err;
         });
