@@ -17,8 +17,8 @@ const PORT = process.env.PORT || 5001
 const app = express();
 
 // HTTPS local certificates
-const certKey = "./certificates/"+process.env.CERTKEY
-const certIp = "./certificates/"+process.env.CERT
+const certKey = "./certificates/"+process.env.CERTKEY;
+const certIp = "./certificates/"+process.env.CERT;
 
 const options = {
     key: fs.readFileSync(certKey),
