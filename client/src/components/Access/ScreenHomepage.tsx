@@ -5,6 +5,8 @@ import WatchScreen from '../Screen/WatchScreen';
 import io from "socket.io-client";
 import Peer from "peerjs";
 
+import { v4 }from "uuid";
+
 interface Props {
     login?: any;
 }
@@ -17,6 +19,7 @@ interface State {
     p_port: any;
     host: any;
     ipMod: any;
+    uniqueIp: any;
 }
 export default class ScreenHomepage extends Component<Props, State> {
     private inputRef: React.RefObject<HTMLInputElement>;
@@ -37,6 +40,7 @@ export default class ScreenHomepage extends Component<Props, State> {
             host: undefined,
             p_port: undefined,
             ipMod: undefined,
+            uniqueIp: undefined,
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
@@ -51,10 +55,12 @@ export default class ScreenHomepage extends Component<Props, State> {
         const PORT = Number(this.pPortRef.current!.value);
         //@ts-ignore
         const host = String(this.ipRef.current!.value.split('.').join(''));
+        const uIp = v4();
 
         this.setState({
             socket: socket,
             ipMod: host,
+            uniqueIp: uIp,
             host: HOST,
             p_port: PORT,
         })
@@ -82,9 +88,10 @@ export default class ScreenHomepage extends Component<Props, State> {
                 <WatchScreen 
                     tokenId={this.state.getScreenId}
                     socket={this.state.socket}
-                    peer ={new Peer({
+                    peer ={new Peer(this.state.uniqueIp,{
                         host: this.state.host,
                         port: this.state.p_port,
+                        secure: true,
                         path: "/"
                     })}
                 />
@@ -98,6 +105,7 @@ export default class ScreenHomepage extends Component<Props, State> {
                     peer={new Peer(this.state.ipMod, {
                         host: this.state.host,
                         port: this.state.p_port,
+                        secure: true,
                         path:"/"
                     })}
                 />

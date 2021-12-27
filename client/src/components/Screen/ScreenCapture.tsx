@@ -34,7 +34,8 @@ export default class ScreenCapture extends Component<Props, State> {
         this.stopRecording = this.stopRecording.bind(this);
     }
     componentDidMount() {
-        this.props.socket.emit("join-room", this.props.peer.id);
+        console.log("peer",this.props.peer);
+        this.props.socket.emit("join-room", this.props.peer!._id);
         this.videoRef.current!.style.width = window.screen.width+'px';
         this.videoRef.current!.style.height = window.screen.height+'px';
         
@@ -42,6 +43,7 @@ export default class ScreenCapture extends Component<Props, State> {
             peerId: this.props.peer.id,
         })
         this.props.socket.on("joined-room", (user) => {
+            console.log(user);
             this.setState({
                 users:user,
             })

@@ -17,9 +17,9 @@ export default class WatchScreen extends Component<Props> {
     }
     componentDidMount() {
         let connection = this.props.peer.connect(this.props.tokenId);
-        console.log(this.props.peer, connection);
+        console.log(this.props.peer, this.props.peer.id);
+        this.props.socket.emit("join-room", this.props.tokenId, this.props.peer.id);
         connection.on('open', () => {
-            this.props.socket.emit("join-room", this.props.tokenId, this.props.peer.id);
             connection.send("Hello");
         });
         connection.on("data", (data) => {
@@ -56,6 +56,10 @@ export default class WatchScreen extends Component<Props> {
             let obj = {key: e.key, room: this.props.tokenId};
             this.props.socket.emit("type", obj)
         })
+    }
+
+    componentDidUpdate() {
+        
     }
 
     render() {

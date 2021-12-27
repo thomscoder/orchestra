@@ -52,8 +52,8 @@ let users = [];
 io.on("connection", (socket) => {
     socket.on("join-room", (room, id) => {
         socket.join(room);
-        if(id) users.unshift(id);
-        socket.broadcast.emit("joined-room", users[0]);
+        console.log(id);
+        socket.broadcast.emit("joined-room", id);
         console.log(`New user ${socket.id} joined the room ${room}`);
     });
 
@@ -93,10 +93,11 @@ io.on("connection", (socket) => {
     })
 })
 
-app.use(express.static("./client/build"));
-app.use("*",(req, res) => {
-    res.send(res.sendFile(path.join(__dirname, "client", "build", "index.html")))
-})
+// app.use(express.static("./client/build"));
+// app.use("*",(req, res) => {
+//     res.send(res.sendFile(path.join(__dirname, "client", "build", "index.html")))
+// })
+
 server.listen(PORT, () => {
     console.log("Server is up and running on port",PORT);
     console.log(`Serving your project at: https://192.168.1.5:${PORT}`);
