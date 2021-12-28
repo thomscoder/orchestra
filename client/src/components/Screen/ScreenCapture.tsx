@@ -14,7 +14,6 @@ interface Props {
 export default class ScreenCapture extends Component<Props, State> {
     private videoRef: React.RefObject<HTMLVideoElement>;
     private videoSecondRef: React.RefObject<HTMLVideoElement>;
-    private socket: any;
     private options: Object;
     public peer: any;
     constructor(props?: any) {
@@ -42,21 +41,26 @@ export default class ScreenCapture extends Component<Props, State> {
         this.setState({
             peerId: this.props.peer.id,
         })
-        this.props.socket.on("joined-room", (user) => {
-            console.log(user);
-            this.setState({
-                users:user,
-            })
-        })
         startScreenRecording(this.options).then((stream) => {
             this.videoRef.current!.srcObject = stream!;
             this.props.peer.on('connection', (conn) => {
-                conn.on('data', (data) => {
-                    console.log(data);
-                    this.props.peer.call(this.state.users, stream!);
-                });
+                console.log("peer detected")
                 conn.on('open', () => {
-                    conn.send('Data ok!');
+                    conn.on('data', (data) => {
+                        if(!data.event) this.props.socket.emit("join-room", data.room, data.userId);
+                        if(data.event) {
+                            if(data.event == "mousemove") this.props.socket.emit("mousemove", data);
+                            if(data.event == "mouse-click") this.props.socket.emit("mouse-click", data);
+                            if(data.event == "type") this.props.socket.emit("type", data);
+                        }
+                        conn.send('Data ok!');
+                        this.props.socket.on("joined-room", (user) => {
+                            this.setState({
+                                users:user,
+                            })
+                            this.props.peer.call(this.state.users, stream!);
+                        })
+                    });
                 });
             });
         });

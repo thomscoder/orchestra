@@ -6,10 +6,14 @@ import io from "socket.io-client";
 import Peer from "peerjs";
 
 import { v4 }from "uuid";
-
+import ShortUniqueId from "short-unique-id";
 interface Props {
     login?: any;
 }
+const REACT_HOST = String(process.env.REACT_APP_HOST);
+const REACT_PORT = Number(process.env.REACT_APP_PORT);
+
+const uid = new ShortUniqueId({length: 4})
 
 interface State {
     logged: Boolean;
@@ -22,14 +26,12 @@ interface State {
     uniqueIp: any;
 }
 export default class ScreenHomepage extends Component<Props, State> {
-    private inputRef: React.RefObject<HTMLInputElement>;
     private ipRef: React.RefObject<HTMLInputElement>;
-    private pPortRef: React.RefObject<HTMLInputElement>;
+    private getHost: React.RefObject<HTMLInputElement>;
     constructor(props?) {
         super(props);
-        this.inputRef = React.createRef();
         this.ipRef = React.createRef();
-        this.pPortRef = React.createRef();
+        this.getHost = React.createRef();
         this.state = {
             logged: false,
             getScreenId: '',
@@ -49,22 +51,16 @@ export default class ScreenHomepage extends Component<Props, State> {
         e.preventDefault();
         const url = this.ipRef.current!.value
         const ipAddress: string = url.match(/(?<=\/\/).*(?=:)/)![0];
-        console.log(ipAddress)
         const portNumber = url.match(/(?<=:)\d+/)![0];
         const socket = io(`https://${ipAddress}:${portNumber}`);
-        const HOST = String(ipAddress);
-        //@ts-ignore
-        const PORT = Number(this.pPortRef.current!.value);
         //@ts-ignore
         const host = String(ipAddress.split('.').join(''));
-        const uIp = v4();
 
         this.setState({
             socket: socket,
             ipMod: host,
-            uniqueIp: uIp,
-            host: HOST,
-            p_port: PORT,
+            host: REACT_HOST,
+            p_port: REACT_PORT,
         })
 
         console.log(socket);
@@ -72,8 +68,13 @@ export default class ScreenHomepage extends Component<Props, State> {
 
     getScreen(e) {
         e.preventDefault();
+        const HOST =this.getHost.current!.value;
+        const uniqueIp = v4();
         this.setState({
-            getScreenId: this.inputRef.current!.value,
+            getScreenId: HOST.split('.').join(''),
+            host: REACT_HOST,
+            p_port: REACT_PORT,
+            uniqueIp: uniqueIp,
         })
     }
 
@@ -90,11 +91,12 @@ export default class ScreenHomepage extends Component<Props, State> {
                 <WatchScreen 
                     tokenId={this.state.getScreenId}
                     socket={this.state.socket}
-                    peer ={new Peer(this.state.uniqueIp,{
-                        host: this.state.host,
-                        port: this.state.p_port,
+                    peer ={new Peer(uid(),{
+                        host: REACT_HOST,
+                        port: Number(REACT_PORT),
                         secure: true,
-                        path: "/"
+                        path: "/",
+                        //debug: 3,
                     })}
                 />
             )
@@ -104,27 +106,28 @@ export default class ScreenHomepage extends Component<Props, State> {
                 <ScreenCapture 
                     socket={this.state.socket}
                     userID={this.state.userID}
-                    peer={new Peer(this.state.ipMod, {
-                        host: this.state.host,
-                        port: this.state.p_port,
+                    peer={new Peer(uid(), {
+                        host: REACT_HOST,
+                        port: Number(REACT_PORT),
                         secure: true,
-                        path:"/"
+                        path:"/",
+                        //debug: 3
                     })}
                 />
             )
         }
         return (
             <div>
+                <h1>Start Server</h1>
                 <form onSubmit={this.startConnection}>
                     <div id="label-ip"><label htmlFor="get-ip">Connect to server</label></div>
                     <div id="ip-address"><input type="ip" name="get-ip" ref={this.ipRef}/></div>
-                    <div id="label-p-port"><label htmlFor="get-p-port">Insert peer port</label></div>
-                    <div id="p-ort"><input type="p-port" name="get-p-port" ref={this.pPortRef}/></div>
                     <button type="submit">Server</button>
                 </form>
+                <h1>Join Room</h1>
                 <form onSubmit={this.getScreen}>
-                    <div id="label"><label htmlFor="get-screen">Insert token</label></div>
-                    <div id="token-id"><input type="text" name="get-screen" ref={this.inputRef}/></div>
+                    <div id="label"><label htmlFor="get-host">Get Host</label></div>
+                    <div id="host"><input type="text" name="get-host" ref={this.getHost}/></div>
                     <button type="submit">Get screen</button>
                     <button type="button" onClick={this.shareYourScreen}>Share your screen</button>
                 </form>

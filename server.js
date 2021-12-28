@@ -31,14 +31,14 @@ app.use(cors({
 }));
 
 
-const peerServer = PeerServer({
-    port: process.env.P_PORT,
-    path: '/',
-    ssl: {
-        key: fs.readFileSync(certKey),
-        cert: fs.readFileSync(certIp),
-    }
-})
+// const peerServer = PeerServer({
+//     port: process.env.P_PORT,
+//     path: '/',
+//     ssl: {
+//         key: fs.readFileSync(certKey),
+//         cert: fs.readFileSync(certIp),
+//     }
+// })
 
 // Start https server
 const server = https.createServer(options, app);
@@ -53,8 +53,8 @@ io.on("connection", (socket) => {
     socket.on("join-room", (room, id) => {
         socket.join(room);
         console.log(id);
-        socket.broadcast.emit("joined-room", id);
-        console.log(`New user ${socket.id} joined the room ${room}`);
+        socket.emit("joined-room", id);
+        console.log(`New user ${id} joined the room ${room}`);
     });
 
     socket.on("mousemove", (data) => {
@@ -100,7 +100,6 @@ io.on("connection", (socket) => {
 
 server.listen(PORT, () => {
     console.log("Server is up and running on port",PORT);
-    console.log(`Paste it in the 'Connect to server' field: https://192.168.1.5:${PORT}`);
-    console.log(`Connect from any device in your network by typing: https://${process.env.HOST}:${PORT}`);
+    console.log(`Paste it in the 'Connect to server' field: https://${process.env.HOST}:${PORT}`);
 });
 
