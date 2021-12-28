@@ -1,6 +1,6 @@
 # Orchestra
 
-I'm building this app as a project during my learning of Typescript, PWA and CyberSec.
+I'm building this app as a project during my learning of Typescript, PWAs and CyberSec.
 The goal of this app is to simplify the sharing of small live sessions across devices.
 
 # How it works
@@ -12,21 +12,37 @@ It's room based so only those with the access token/key can access the live sess
 
 - Currently works only with devices in the same network
 
-# How to install and run it
+# How to run it?
 
-- Requires Python 2.7
+The app works over a small Websockets and webRTC implementation.
+The client is hosted on Netlify while the peer server is hosted on Heroku.
 
+<h1>How to share your screen</h1>
+
+- Start the local server on a port of your choice
+- Paste the given URL from the server in the respective field on the client.
+- Click the button "Server"
+- Done!
+
+The client will now connect to your local server and establish a ws connection
+(you can check in the console if there's no error)
+
+- Click share screen and send the generated Room ID to whoever you want.
+
+<h1>To watch the screen</h1>
+
+- Simply paste or type the ID in the respective field
+- Click "Get screen".
+- Done
+
+# Requirements to run it locally
+
+Requirements to run the local server and share the screen
+
+- Mkcert
 - On Windows requires windows-build-tools and Visual Studio (2013 or higher)
 
-* Clone the repo
-* run <b>yarn install</b> in ./
-* running <b>yarn dev</b> in ./ will trigger python script cli that will create .env files with your custom values
-
-I chose to use local ip addresses to make it easy to screen share with devices in the same network:
-
-- Start screen sharing from your pc
-- Join the room from another device in the same network
-- Enjoy!
+- Python (not necessarily but good to have it)
 
 # Current features
 

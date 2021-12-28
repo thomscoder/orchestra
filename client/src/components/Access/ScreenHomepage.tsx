@@ -4,8 +4,6 @@ import WatchScreen from '../Screen/WatchScreen';
 
 import io from "socket.io-client";
 import Peer from "peerjs";
-
-import { v4 }from "uuid";
 import ShortUniqueId from "short-unique-id";
 interface Props {
     login?: any;
@@ -22,8 +20,6 @@ interface State {
     socket: any;
     p_port: any;
     host: any;
-    ipMod: any;
-    uniqueIp: any;
 }
 export default class ScreenHomepage extends Component<Props, State> {
     private ipRef: React.RefObject<HTMLInputElement>;
@@ -39,8 +35,6 @@ export default class ScreenHomepage extends Component<Props, State> {
             socket: undefined,
             host: undefined,
             p_port: undefined,
-            ipMod: undefined,
-            uniqueIp: undefined,
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
@@ -53,12 +47,9 @@ export default class ScreenHomepage extends Component<Props, State> {
         const ipAddress: string = url.match(/(?<=\/\/).*(?=:)/)![0];
         const portNumber = url.match(/(?<=:)\d+/)![0];
         const socket = io(`https://${ipAddress}:${portNumber}`);
-        //@ts-ignore
-        const host = String(ipAddress.split('.').join(''));
 
         this.setState({
             socket: socket,
-            ipMod: host,
             host: REACT_HOST,
             p_port: REACT_PORT,
         })
@@ -69,12 +60,10 @@ export default class ScreenHomepage extends Component<Props, State> {
     getScreen(e) {
         e.preventDefault();
         const HOST =this.getHost.current!.value;
-        const uniqueIp = v4();
         this.setState({
             getScreenId: HOST.split('.').join(''),
             host: REACT_HOST,
             p_port: REACT_PORT,
-            uniqueIp: uniqueIp,
         })
     }
 
