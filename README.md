@@ -1,16 +1,11 @@
 # Orchestra
 
-I'm building this app as a project during my learning of Typescript, PWAs and CyberSec.
+I'm building this app as a project during my learning of Typescript, PWAs, Networking and CyberSec.
 The goal of this app is to simplify the sharing of small live sessions across devices.
 
 # How it works
 
 This app is currently a small remote Desktop application in which users can either share their screens or get the screen of other users and control the other end's device.
-It's room based so only those with the access token/key can access the live session.
-
-# Important
-
-- Currently works only with devices in the same network
 
 # How to run it?
 
@@ -21,10 +16,10 @@ The client is hosted on Netlify while the peer server is hosted on Heroku.
 
 - Start the local server on a port of your choice
 - Paste the given URL from the server in the respective field on the client.
-- Click the button "Server"
+- Click "Server"
 - Done!
 
-The client will now connect to your local server and establish a ws connection
+The client will now establish a ws to your local server
 (you can check in the console if there's no error)
 
 - Click share screen and send the generated Room ID to whoever you want.
@@ -35,14 +30,16 @@ The client will now connect to your local server and establish a ws connection
 - Click "Get screen".
 - Done
 
-# Requirements to run it locally
+# Requirements to run the local server
 
 Requirements to run the local server and share the screen
 
 - Mkcert
 - On Windows requires windows-build-tools and Visual Studio (2013 or higher)
 
-- Python (not necessarily but good to have it)
+# How to contribute
+
+Open a new branch describing the feature, styling or the bug fix (e.g. feature/audio-sharing) and have fun!
 
 # Current features
 
