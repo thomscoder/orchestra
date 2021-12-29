@@ -11,10 +11,10 @@ let setEnv = async () => {
         let path = "/"
         let port = prompt("Node server port: ");
         const envServer = `\nHOST=${ip} \nPATH=${path} \nPORT=${port} \nCERTKEY=localhost+1-key.pem \nCERT=localhost+1.pem`
-        fs.writeFile('../.env', envServer, (err) => {
+        fs.writeFile('.env', envServer, (err) => {
             if(err !== null) return err;
         });
-        exec(`cd ../certificates && mkcert localhost ${ip}`)
+        exec(`mkcert localhost ${ip}`);
     });
 };
 
