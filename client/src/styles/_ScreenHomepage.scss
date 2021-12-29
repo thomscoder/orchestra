@@ -1,0 +1,24 @@
+#root {
+    h1, label, p {
+        color: white;
+    }
+    button {
+        background-color: #ffbd59;
+        padding: 20px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    input {
+        width: 20%;
+        height: 20px;
+        outline: none;
+        border: 0;
+        padding: 12px;
+        font-size: 12px;
+        margin-bottom: 12px;
+        &:focus {
+            outline: none;
+            border: 0;
+        }
+    }
+}
