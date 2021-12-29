@@ -3,6 +3,8 @@
 I'm building this app as a project during my learning of Typescript, PWAs, Networking and CyberSec.
 The goal of this app is to simplify the sharing of small live sessions across devices.
 
+Built with React and Nodejs
+
 # How it works
 
 This app is currently a small remote Desktop application in which users can either share their screens or get the screen of other users and control the other end's device.
