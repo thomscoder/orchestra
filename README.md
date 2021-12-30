@@ -12,7 +12,7 @@ This app is currently a small remote Desktop application in which users can eith
 # How to run it?
 
 The app works over a small Websockets and webRTC implementation.
-The client is hosted on Netlify while the peer server is hosted on Heroku (you can simply create a local peerServer by uncommenting the peerServer variable in server.js file)  
+The client is hosted on Netlify while the peer server is hosted on Heroku (you can simply add your own server via either heroku buttons, peerjs docs or leaving it blank for peerjs to use its own default servers -> One of peerjs default servers is already set up in the .env-sample file).
 
 <h1>How to share your screen</h1>
 
@@ -28,16 +28,19 @@ The client will now establish a ws to your local server
 
 <h1>To watch the screen</h1>
 
-- Simply paste or type the ID in the respective field
+- Paste the ID
 - Click "Get screen".
-- Done
+- Done!
 
 # Requirements to run the local server
 
-Requirements to run the local server and share the screen
+Requirements to run the local server
 
 - Mkcert
-- On Windows requires windows-build-tools and Visual Studio (2013 or higher)
+
+- Windows -> Microsoft Visual C++ Redistributable
+- MacOS -> Xcode command line tools
+- Linux -> libXtst
 
 # How to contribute
 
