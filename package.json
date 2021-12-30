@@ -9,7 +9,7 @@
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon -q server.js",
+    "server": "cd cli && node config.js && nodemon -q server.js",
     "client": "cd client && yarn start",
     "local": "cd cli && node config.js && cd .. && node server.js",
     "dev": "cd cli && node config.js && concurrently \"yarn run server\" \"yarn run client\"",

@@ -44,9 +44,7 @@ export default class ScreenHomepage extends Component<Props, State> {
     startConnection(e) {
         e.preventDefault();
         const url = this.ipRef.current!.value
-        const ipAddress: string = url.match(/(?<=\/\/).*(?=:)/)![0];
-        const portNumber = url.match(/(?<=:)\d+/)![0];
-        const socket = io(`https://${ipAddress}:${portNumber}`);
+        const socket = io(url);
 
         this.setState({
             socket: socket,
