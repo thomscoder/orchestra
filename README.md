@@ -12,7 +12,7 @@ This app is currently a small remote Desktop application in which users can eith
 # How to run it?
 
 The app works over a small Websockets and webRTC implementation.
-The client is hosted on Netlify while the peer server is hosted on Heroku (you can simply add your own server via either heroku buttons, peerjs docs or leaving it blank for peerjs to use its own default servers -> One of peerjs default servers is already set up in the .env-sample file).
+The client is hosted on Vercel while the peer server is hosted on Heroku (you can simply add your own server via either heroku buttons, peerjs docs or leaving it blank for peerjs to use its own default servers -> One of peerjs default servers is already set up in the .env-sample file).
 
 <h1>How to share your screen</h1>
 
