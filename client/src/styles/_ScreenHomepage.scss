@@ -1,24 +1,71 @@
+@import "../utils/Variables";
+
 #root {
     h1, label, p {
         color: white;
     }
-    button {
-        background-color: #ffbd59;
-        padding: 20px;
-        font-size: 12px;
+    #main-logo-container {
+        img {
+            width: 80%;
+        }
+    }
+    #main-buttons-container {
+        display: flex;
+        justify-content: space-evenly;
+        div.choice {
+            display: inline-block;
+            button {
+                padding: 12px;
+                background: $background-none;
+                border: 1px solid $default-border-color;
+                color: $default-text-color;
+                font-family: "Helvetica Neue", Helvetica, Arial;
+                font-size: 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                &:hover {
+                    background: $secondary-button-background;
+                }
+            }
+        }
+    }
+    #server-buttons-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        button {
+            &:hover {
+                background: $secondary-button-background;
+            }
+        }
+    }
+    button:not(.choice button) {
+        padding: 12px;
+        background: $background-none;
+        border: 1px solid $default-border-color;
+        color: $default-text-color;
+        font-family: "Helvetica Neue",
+        Helvetica,
+        Arial;
+        font-size: 16px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: all 0.3s ease;
     }
     input {
-        width: 20%;
+        width: 100%;
         height: 20px;
         outline: none;
-        border: 0;
         padding: 12px;
-        font-size: 12px;
+        font-size: 16px;
         margin-bottom: 12px;
+        background-color: #fff3;
+        border: 1px solid $default-border-color;
+        border-radius: 6px;
+        color: $default-text-color;
         &:focus {
             outline: none;
-            border: 0;
         }
     }
 }

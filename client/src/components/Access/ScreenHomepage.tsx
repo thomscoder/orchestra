@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import ScreenCapture from '../Screen/ScreenCapture';
 import WatchScreen from '../Screen/WatchScreen';
 import "../../styles/_ScreenHomepage.scss"
@@ -15,12 +15,15 @@ const REACT_PORT = Number(process.env.REACT_APP_PORT);
 const uid = new ShortUniqueId({length: 4})
 
 interface State {
-    logged: Boolean;
+    logged: boolean;
     userID: string;
     getScreenId: string;
     socket: any;
     p_port: any;
     host: any;
+    serverConnected: boolean;
+    showShareScreenInput: boolean;
+    showGetScreenInput: boolean;
 }
 export default class ScreenHomepage extends Component<Props, State> {
     private ipRef: React.RefObject<HTMLInputElement>;
@@ -36,10 +39,27 @@ export default class ScreenHomepage extends Component<Props, State> {
             socket: undefined,
             host: undefined,
             p_port: undefined,
+            serverConnected: false,
+            showGetScreenInput: false,
+            showShareScreenInput: false,
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
         this.startConnection = this.startConnection.bind(this);
+        this.showShareSreenInput = this.showShareSreenInput.bind(this);
+        this.showGetSreenInput = this.showGetSreenInput.bind(this);
+    }
+
+    showShareSreenInput() {
+        this.setState({
+            showShareScreenInput: true,
+        })
+    }
+
+    showGetSreenInput() {
+        this.setState({
+            showGetScreenInput: true,
+        })
     }
 
     startConnection(e) {
@@ -51,6 +71,7 @@ export default class ScreenHomepage extends Component<Props, State> {
             socket: socket,
             host: REACT_HOST,
             p_port: REACT_PORT,
+            serverConnected: true,
         })
 
         console.log(socket);
@@ -104,22 +125,39 @@ export default class ScreenHomepage extends Component<Props, State> {
                 />
             )
         }
+        if(this.state.showShareScreenInput) {
+            return (
+                <Fragment>
+                    <h2>Connect to your local server</h2>
+                    <form onSubmit={this.startConnection}>
+                        <div id="ip-address"><input type="ip" name="get-ip" ref={this.ipRef} placeholder="Server url"/></div>
+                        <div id="server-buttons-container">
+                            <button type="submit">Server</button>
+                            <button type="button" onClick={this.shareYourScreen} disabled={!this.state.serverConnected}>Share your screen</button>
+                        </div>
+                    </form>
+                </Fragment>
+            )
+        }
+        if(this.state.showGetScreenInput) {
+            return (
+                <Fragment>
+                    <h2>Join session</h2>
+                    <form onSubmit={this.getScreen}>
+                        <div id="host"><input type="text" name="get-host" ref={this.getHost} placeholder="Insert session id"/></div>
+                        <button type="submit">Get screen</button>
+                    </form>
+                </Fragment>
+            )
+        }
         return (
-            <div>
-                <h1>Start Server</h1>
-                <form onSubmit={this.startConnection}>
-                    <div id="label-ip"><label htmlFor="get-ip">Connect to server</label></div>
-                    <div id="ip-address"><input type="ip" name="get-ip" ref={this.ipRef}/></div>
-                    <button type="submit">Server</button>
-                </form>
-                <h1>Join Room</h1>
-                <form onSubmit={this.getScreen}>
-                    <div id="label"><label htmlFor="get-host">Get Host</label></div>
-                    <div id="host"><input type="text" name="get-host" ref={this.getHost}/></div>
-                    <button type="submit">Get screen</button>
-                    <button type="button" onClick={this.shareYourScreen}>Share your screen</button>
-                </form>
-            </div>
+            <Fragment>         
+                <div id="main-logo-container"><img src="https://i.ibb.co/34Ffnx7/ORCHEstra-2.png" alt="orchestra-logo" /></div>
+                <div id="main-buttons-container">
+                    <div id="share-container" className="choice"><button onClick={this.showShareSreenInput}>Share your screen</button></div>
+                    <div id="watch-container" className="choice"><button onClick={this.showGetSreenInput}>Watch Screen</button></div>
+                </div>
+            </Fragment>
         )
     }
 }

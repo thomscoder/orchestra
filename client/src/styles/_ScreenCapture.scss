@@ -1,12 +1,14 @@
+@import "../utils/Variables";
+
 video#video, video#second-video {
     width: 1440px;
     height: 900px;
-    border: 1px solid;
+    border: 1px solid $default-border-color;
 }
 
 video#share-video {
     width: 1440px;
     height: 900px;
-    border: 1px solid;
+    border: 1px solid $default-border-color;
     margin-top: 2.5%;
 }
