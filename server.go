@@ -4,11 +4,22 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/joho/godotenv"
 
 	socketio "github.com/googollee/go-socket.io"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("An error occurred loading the environment variables")
+		return
+	}
+	host := os.Getenv("HOST")
+	port := ":" + os.Getenv("PORT")
+
 	server := socketio.NewServer(nil)
 	server.OnConnect("connection", func(socket socketio.Conn) error {
 		socket.SetContext("")
@@ -21,7 +32,8 @@ func main() {
 	go server.Serve()
 	defer server.Close()
 	http.Handle("/", server)
-	fmt.Println("Serving at http://localhost:5003")
-	log.Println(http.ListenAndServeTLS(":5003", "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", nil))
+	fmt.Println("Serving at https://localhost" + port)
+	fmt.Println("Serving at https://" + host + port)
+	log.Println(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", nil))
 
 }
