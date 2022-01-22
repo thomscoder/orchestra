@@ -1,48 +1,51 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/rs/cors"
-
-	"github.com/joho/godotenv"
-
 	socketio "github.com/googollee/go-socket.io"
+	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("An error occurred loading the environment variables")
-		return
-	}
-	host := os.Getenv("HOST")
-	port := ":" + os.Getenv("PORT")
+	// Get env variables
+	host, port := getEnvVariables()
 
+	// Create Socket Server
 	var socketServer *socketio.Server = createSocketServer()
 	go socketServer.Serve()
 	defer socketServer.Close()
 
+	// Create handler
 	var handler http.Handler = createServer(socketServer)
 
-	fmt.Println("Serving at https://localhost" + port)
-	fmt.Println("Serving at https://" + host + port)
+	log.Println("Serving at https://" + host + port)
 	log.Println(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", handler))
 
+}
+
+func getEnvVariables() (string, string) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("An error occurred loading the environment variables")
+	}
+	host := os.Getenv("HOST")
+	port := ":" + os.Getenv("PORT")
+	return host, port
 }
 
 func createSocketServer() *socketio.Server {
 	server := socketio.NewServer(nil)
 	server.OnConnect("/", func(socket socketio.Conn) error {
 		socket.SetContext("")
-		fmt.Println("User connected:", socket.ID())
+		log.Println("User connected:", socket.ID())
 		return nil
 	})
 	server.OnDisconnect("", func(socket socketio.Conn, reason string) {
-		fmt.Println("User disconnected:", reason)
+		log.Println("User disconnected:", reason)
 	})
 	return server
 }
