@@ -2,9 +2,6 @@
   "name": "orchestra",
   "version": "1.0.0",
   "main": "server.js",
-  "bin": {
-    "play": "./cli/config.js"
-  },
   "repository": "https://github.com/thomscoder/ecoapp.git",
   "author": "thomscoder <moyelysian@icloud.com>",
   "license": "MIT",
@@ -13,7 +10,7 @@
     "client": "cd client && yarn start",
     "settings": "cd cli && node config.js",
     "py-settings": "cd scripts && python3 config.py",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\"",
+    "dev": "concurrently \"go run server.go\" \"yarn run client\"",
     "build": "cd client && yarn build",
     "postinstall": "cd client && yarn install"
   },

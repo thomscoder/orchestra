@@ -65,7 +65,13 @@ export default class ScreenHomepage extends Component<Props, State> {
     startConnection(e) {
         e.preventDefault();
         const url = this.ipRef.current!.value
-        const socket = io(url);
+        const socket = new WebSocket(url);
+        socket.onopen = () => {
+            socket.send("Hi from the client")
+        }
+        socket.onmessage = (data) => {
+            console.log(data)
+        }
 
         this.setState({
             socket: socket,
@@ -80,8 +86,9 @@ export default class ScreenHomepage extends Component<Props, State> {
     getScreen(e) {
         e.preventDefault();
         const HOST =this.getHost.current!.value;
+        console.log("GET SCREEN", HOST)
         this.setState({
-            getScreenId: HOST.split('.').join(''),
+            getScreenId: HOST,
             host: REACT_HOST,
             p_port: REACT_PORT,
         })
