@@ -7,7 +7,6 @@ import (
 )
 
 func MouseMove(x float64, y float64) {
-	log.Println(x, y)
 	robotgo.Move(int(x), int(y))
 }
 

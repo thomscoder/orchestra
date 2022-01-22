@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"orchestra/actions"
 
 	"github.com/go-vgo/robotgo"
@@ -57,20 +58,20 @@ func connectionsReader(conn *websocket.Conn) error {
 	// Send a message to client
 	msg := []byte("Message from the server")
 	if err := conn.WriteMessage(websocket.TextMessage, msg); err != nil {
-		log.Println("An error occurred:", err)
+		log.Fatal("An error occurred:", err)
 		return err
 	}
 	for {
 		_, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Println("An error occurred ->", err)
+			log.Fatal("An error occurred ->", err)
 			return err
 		}
 
 		// Get message text
 		receivedMessage = string(p)
 		json.Unmarshal([]byte(receivedMessage), &message)
-		log.Println("coordinates", message.PosX, message.PosY)
+		fmt.Println("coordinates", message.PosX, message.PosY)
 		switch message.Event {
 		case "mousemove":
 			actions.MouseMove(message.PosX, message.PosY)
