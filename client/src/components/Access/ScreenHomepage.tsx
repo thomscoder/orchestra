@@ -86,8 +86,9 @@ export default class ScreenHomepage extends Component<Props, State> {
     getScreen(e) {
         e.preventDefault();
         const HOST =this.getHost.current!.value;
+        console.log("GET SCREEN", HOST)
         this.setState({
-            getScreenId: HOST.split('.').join(''),
+            getScreenId: HOST,
             host: REACT_HOST,
             p_port: REACT_PORT,
         })

@@ -34,7 +34,7 @@ export default class ScreenCapture extends Component<Props, State> {
     }
     componentDidMount() {
         console.log("peer",this.props.peer);
-        this.props.socket.emit("join-room", this.props.peer!._id);
+        //this.props.socket.emit("join-room", this.props.peer!._id);
         this.videoRef.current!.style.width = window.screen.width+'px';
         this.videoRef.current!.style.height = window.screen.height+'px';
         
@@ -47,18 +47,16 @@ export default class ScreenCapture extends Component<Props, State> {
                 console.log("peer detected")
                 conn.on('open', () => {
                     conn.on('data', (data) => {
-                        if(!data.event) this.props.socket.emit("join-room", data.room, data.userId);
+                        //if(!data.event) this.props.socket.emit("join-room", data.room, data.userId);
                         if(data.event) {
                             if(data.event == "mousemove") this.props.socket.emit("mousemove", data);
                             if(data.event == "mouse-click") this.props.socket.emit("mouse-click", data);
                             if(data.event == "type") this.props.socket.emit("type", data);
                         }
                         conn.send('Data ok!');
-                        this.props.socket.on("joined-room", (user) => {
-                            this.setState({
-                                users:user,
-                            })
-                            this.props.peer.call(this.state.users, stream!);
+                        this.props.peer.call(data.userId, stream!);
+                        this.setState({
+                            users: data.userId
                         })
                     });
                 });
