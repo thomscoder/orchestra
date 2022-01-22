@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"orchestra/actions"
 
-	"github.com/go-vgo/robotgo"
 	"github.com/gorilla/websocket"
 	"github.com/joho/godotenv"
 
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -22,9 +21,9 @@ func main() {
 	host, port := getEnvVariables()
 
 	http.HandleFunc("/", webSocketHandler)
-	log.Println("Serving at https://" + host + port + "/")
+	log.Println("Paste -> wss://localhost" + port + "/ <- in the respective field")
+	log.Println("Or -> wss://" + host + port + "/ <-")
 	log.Fatal(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", nil))
-
 }
 
 func webSocketHandler(response http.ResponseWriter, request *http.Request) {
@@ -35,13 +34,8 @@ func webSocketHandler(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		log.Println("An error occurred:", err)
 	}
-
 	log.Println("Successfully connected!")
 	connectionsReader(ws)
-}
-
-func mouseMove(x float64, y float64) {
-	robotgo.Move(int(x), int(y))
 }
 
 func connectionsReader(conn *websocket.Conn) error {
