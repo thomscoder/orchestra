@@ -43,7 +43,7 @@ export default class WatchScreen extends Component<Props> {
                     const rect = node.getBoundingClientRect();
                     let x = e.pageX - rect.left;
                     let y = e.pageY - rect.top;
-                    const data = {event:"mousemove",x, y}
+                    const data = {event:"mousemove",posX: x, posY: y}
                     connection.send(data)
                 })
             }
