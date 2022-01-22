@@ -32,18 +32,21 @@ func webSocketHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	log.Println("Successfully connected!")
-	reader(ws)
+	connectionsReader(ws)
 }
 
-func reader(conn *websocket.Conn) {
+func connectionsReader(conn *websocket.Conn) {
 	for {
-		messageType, p, err := conn.ReadMessage()
+		_, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println("An error occurred:", err)
 			return
 		}
-		log.Println(p)
-		if err := conn.WriteMessage(messageType, p); err != nil {
+
+		log.Println(string(p))
+
+		msg := []byte("Message from the server")
+		if err := conn.WriteMessage(websocket.TextMessage, msg); err != nil {
 			log.Println("An error occurred:", err)
 			return
 		}

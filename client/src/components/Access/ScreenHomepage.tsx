@@ -66,6 +66,12 @@ export default class ScreenHomepage extends Component<Props, State> {
         e.preventDefault();
         const url = this.ipRef.current!.value
         const socket = new WebSocket(url);
+        socket.onopen = () => {
+            socket.send("Hi from the client")
+        }
+        socket.onmessage = (data) => {
+            console.log(data)
+        }
 
         this.setState({
             socket: socket,
