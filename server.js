@@ -37,6 +37,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+    console.log(socket.id)
     socket.on("join-room", (room, id) => {
         socket.join(room);
         socket.emit("joined-room", id);

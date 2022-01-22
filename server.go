@@ -1,30 +1,53 @@
 package main
 
 import (
+	"github.com/gorilla/websocket"
+	"github.com/joho/godotenv"
+
 	"log"
 	"net/http"
 	"os"
-
-	socketio "github.com/googollee/go-socket.io"
-	"github.com/joho/godotenv"
-	"github.com/rs/cors"
 )
+
+//Build the websocket
+var upgrader = websocket.Upgrader{}
 
 func main() {
 	// Get env variables
 	host, port := getEnvVariables()
 
-	// Create Socket Server
-	var socketServer *socketio.Server = createSocketServer()
-	go socketServer.Serve()
-	defer socketServer.Close()
+	http.HandleFunc("/", webSocketHandler)
+	log.Println("Serving at https://" + host + port + "/")
+	log.Fatal(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", nil))
 
-	// Create handler
-	var handler http.Handler = createServer(socketServer)
+}
 
-	log.Println("Serving at https://" + host + port)
-	log.Println(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", handler))
+func webSocketHandler(response http.ResponseWriter, request *http.Request) {
+	// Handle cors error
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	// Upgrade all the connections to websocket connections
+	ws, err := upgrader.Upgrade(response, request, nil)
+	if err != nil {
+		log.Println("An error occurred:", err)
+	}
 
+	log.Println("Successfully connected!")
+	reader(ws)
+}
+
+func reader(conn *websocket.Conn) {
+	for {
+		messageType, p, err := conn.ReadMessage()
+		if err != nil {
+			log.Println("An error occurred:", err)
+			return
+		}
+		log.Println(p)
+		if err := conn.WriteMessage(messageType, p); err != nil {
+			log.Println("An error occurred:", err)
+			return
+		}
+	}
 }
 
 func getEnvVariables() (string, string) {
@@ -35,30 +58,4 @@ func getEnvVariables() (string, string) {
 	host := os.Getenv("HOST")
 	port := ":" + os.Getenv("PORT")
 	return host, port
-}
-
-func createSocketServer() *socketio.Server {
-	server := socketio.NewServer(nil)
-	server.OnConnect("/", func(socket socketio.Conn) error {
-		socket.SetContext("")
-		log.Println("User connected:", socket.ID())
-		return nil
-	})
-	server.OnDisconnect("", func(socket socketio.Conn, reason string) {
-		log.Println("User disconnected:", reason)
-	})
-	return server
-}
-
-func createServer(s *socketio.Server) http.Handler {
-	mux := http.NewServeMux()
-	mux.Handle("/", s)
-	handler := cors.Default().Handler(mux)
-	corsOptions := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "POST"},
-	})
-	handler = corsOptions.Handler(handler)
-	return handler
 }
