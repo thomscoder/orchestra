@@ -8,4 +8,5 @@ require (
 	github.com/googollee/go-socket.io v1.6.1 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/rs/cors v1.8.2 // indirect
 )
