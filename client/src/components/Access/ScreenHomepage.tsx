@@ -3,7 +3,7 @@ import ScreenCapture from '../Screen/ScreenCapture';
 import WatchScreen from '../Screen/WatchScreen';
 import "../../styles/_ScreenHomepage.scss"
 
-import io from "socket.io-client";
+
 import Peer from "peerjs";
 import ShortUniqueId from "short-unique-id";
 interface Props {
