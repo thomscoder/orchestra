@@ -2,6 +2,7 @@ package main
 
 import (
 	"orchestra/actions"
+	"orchestra/config"
 
 	"github.com/gorilla/websocket"
 	"github.com/joho/godotenv"
@@ -17,13 +18,14 @@ import (
 var upgrader = websocket.Upgrader{}
 
 func main() {
+	config.CreateServerEnvFile()
 	// Get env variables
 	host, port := getEnvVariables()
 
 	http.HandleFunc("/", webSocketHandler)
 	log.Println("Paste -> wss://localhost" + port + "/ <- in the respective field")
 	log.Println("Or -> wss://" + host + port + "/ <-")
-	log.Fatal(http.ListenAndServeTLS(port, "./certificates/localhost+1.pem", "./certificates/localhost+1-key.pem", nil))
+	log.Fatal(http.ListenAndServeTLS(port, "./certificates/localhost.pem", "./certificates/localhost-key.pem", nil))
 }
 
 func webSocketHandler(response http.ResponseWriter, request *http.Request) {
