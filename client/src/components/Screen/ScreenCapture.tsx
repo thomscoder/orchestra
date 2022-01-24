@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { shareScreenRecording, startScreenRecording, stopScreenRecording, stopScreenSharing } from '../../scripts/ScreenCapture';
+import { startScreenRecording, stopScreenRecording} from '../../scripts/ScreenCapture';
 import "../../styles/_ScreenCapture.scss";
 
 interface State {
@@ -63,13 +63,6 @@ export default class ScreenCapture extends Component<Props, State> {
     }
 
 
-    shareRecording() {
-        shareScreenRecording(this.videoSecondRef.current, this.videoRef.current, this.options); 
-    }
-    
-    stopSharing() {
-        stopScreenSharing(this.videoSecondRef.current)
-    }
 
     stopRecording() {
         stopScreenRecording(this.videoRef.current)
