@@ -1,3 +1,2 @@
 *.tsx linguist-language=Typescript
 *.html linguist-detectable=false
-*.(json|md) linguist-language=Other

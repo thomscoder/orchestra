@@ -12,10 +12,15 @@ func MouseMove(x float64, y float64) {
 
 func MouseClick() {
 	robotgo.Click("left", true)
-	log.Println("mouse-click")
+	log.Println("mouse click")
 }
 
 func KeyType(key string) {
 	robotgo.KeyTap(key)
-	log.Println("key-type")
+	log.Println("key tap")
+}
+
+func Scroll(x float64, y float64) {
+	robotgo.Scroll(int(x), int(y))
+	log.Println("scroll")
 }

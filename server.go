@@ -14,22 +14,20 @@ import (
 	"os"
 )
 
-//Build the websocket
 var upgrader = websocket.Upgrader{}
 
 func main() {
 	config.CreateServerEnvFile()
 	// Get env variables
-	host, port := getEnvVariables()
+	_, port := getEnvVariables()
 
 	http.HandleFunc("/", webSocketHandler)
 	log.Println("Paste -> wss://localhost" + port + "/ <- in the respective field")
-	log.Println("Or -> wss://" + host + port + "/ <-")
 	log.Fatal(http.ListenAndServeTLS(port, "./certificates/localhost.pem", "./certificates/localhost-key.pem", nil))
 }
 
 func webSocketHandler(response http.ResponseWriter, request *http.Request) {
-	// Handle cors error
+	// Handle cors
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	// Upgrade all the connections to websocket connections
 	ws, err := upgrader.Upgrade(response, request, nil)
@@ -37,10 +35,13 @@ func webSocketHandler(response http.ResponseWriter, request *http.Request) {
 		log.Println("An error occurred:", err)
 	}
 	log.Println("Successfully connected!")
+	// Start listening and reading all the incoming connections
 	connectionsReader(ws)
 }
 
 func connectionsReader(conn *websocket.Conn) error {
+	// The struct helps to parse and access
+	// the data received from client
 	type Message struct {
 		Event string
 		PosX  float64
@@ -57,15 +58,20 @@ func connectionsReader(conn *websocket.Conn) error {
 		log.Fatal("An error occurred:", err)
 		return err
 	}
+	// Keep listening for connections
 	for {
+		// Read each connection
 		_, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Fatal("An error occurred ->", err)
 			return err
 		}
 
-		// Get message text
+		// Get the client data
+		// received in stringified JSON
 		receivedMessage = string(p)
+		// turn the stringified JSON into a Message struct
+		// so we can access the data more easily
 		json.Unmarshal([]byte(receivedMessage), &message)
 		fmt.Println("coordinates", message.PosX, message.PosY)
 		switch message.Event {
@@ -78,10 +84,14 @@ func connectionsReader(conn *websocket.Conn) error {
 		case "type":
 			actions.KeyType(message.Key)
 			break
+		case "scroll":
+			actions.Scroll(message.PosX, message.PosY)
+			break
 		}
 	}
 }
 
+// Read the generated env file
 func getEnvVariables() (string, string) {
 	err := godotenv.Load()
 	if err != nil {
