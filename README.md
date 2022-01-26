@@ -11,7 +11,7 @@ This app is currently a small remote Desktop application in which users can eith
 
 # How to run it?
 
-The app works over a small Websocket sever written in Go and a webRTC implementation.
+The app works over a small local sever written in Go.
 The client is hosted on Vercel while the peer server is hosted on Heroku (simply add your own server via either heroku buttons, peerjs docs or leaving it blank for peerjs to use its own default servers -> One of peerjs default servers is already set up in the .env-sample file).
 
 <h1>How to share your screen</h1>
@@ -35,6 +35,14 @@ Once "Server" is clicked the client will establish a web socket to your local se
 Requirements to run the local server
 
 - Mkcert
+```bash
+# On MacOS
+$ brew install mkcert
+$ mkcert -install
+# On Windows
+$ choco install mkcert
+$ mkcert -install
+```
 - Go
 
 - Windows -> Microsoft Visual C++ Redistributable
