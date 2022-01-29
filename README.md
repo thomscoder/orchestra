@@ -7,10 +7,9 @@ Built with React and Nodejs
 
 # How it works
 
-This app is currently a small remote Desktop application in which users can either share their screens or get the screen of other users and control the other end's device.
+This app currently allows users to either share their screens or get the screen of other users and control them.
 
-<img src="https://i.ibb.co/TLtP3DM/Schermata-2022-01-29-alle-17-19-23.png">
-<img src="https://i.ibb.co/xHW8pn7/Schermata-2022-01-29-alle-17-21-45.png">
+<img src="https://i.ibb.co/k59nQhZ/Schermata-2022-01-29-alle-17-31-55.png">
 
 # How to run it?
 
