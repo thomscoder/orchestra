@@ -24,6 +24,7 @@ interface State {
     serverConnected: boolean;
     showShareScreenInput: boolean;
     showGetScreenInput: boolean;
+    connectionEstablished: boolean;
 }
 export default class ScreenHomepage extends Component<Props, State> {
     private ipRef: React.RefObject<HTMLInputElement>;
@@ -42,6 +43,7 @@ export default class ScreenHomepage extends Component<Props, State> {
             serverConnected: false,
             showGetScreenInput: false,
             showShareScreenInput: false,
+            connectionEstablished: false,
         }
         this.getScreen = this.getScreen.bind(this);
         this.shareYourScreen = this.shareYourScreen.bind(this);
@@ -71,6 +73,9 @@ export default class ScreenHomepage extends Component<Props, State> {
         }
         socket.onmessage = (data) => {
             console.log(data)
+            this.setState({
+                connectionEstablished: true,
+            })
         }
 
         this.setState({
@@ -143,6 +148,13 @@ export default class ScreenHomepage extends Component<Props, State> {
                             <button type="button" onClick={this.shareYourScreen} disabled={!this.state.serverConnected}>Share your screen</button>
                         </div>
                     </form>
+                    {
+                        this.state.connectionEstablished ?
+                        <div>
+                            <p>Successfully connected to the server!</p>
+                        </div>
+                        : null
+                    }
                 </Fragment>
             )
         }

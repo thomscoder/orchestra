@@ -6,21 +6,34 @@ interface Props {
     socket?: any;
     peer?: any;
 }
+interface State {
+    connection: any;
+    allowedRemoteControl: Boolean;
+}
 
-export default class WatchScreen extends Component<Props> {
+export default class WatchScreen extends Component<Props, State> {
     private getScreenRef: RefObject<HTMLVideoElement>
     constructor(props) {
         super(props);
+        this.state  = {
+            connection: undefined,
+            allowedRemoteControl: false,
+        }
         this.getScreenRef = React.createRef();
+        this.requestControl = this.requestControl.bind(this);
+        this.stopControl = this.stopControl.bind(this);
     }
     componentDidMount() {
         this.props.peer.on("open", () => {
-            console.log("aefvjaenvaievniaeofvoaiefbvahefbvaefvbao")
+            // Start the connection with the peer
             let connection = this.props.peer.connect(this.props.tokenId);
             console.log("connection",connection, this.props.peer.id, this.props.tokenId);
+            // Handle connection events
+            // On errors
             this.props.peer.on("error",(err) => {
                 console.log(err)
             });
+            // On open
             const userData = {
                 room: this.props.tokenId,
                 userId: this.props.peer.id
@@ -30,21 +43,59 @@ export default class WatchScreen extends Component<Props> {
             });
             connection.on("data", (data) => {
                 console.log(data);
+                this.setState({
+                    connection: connection,
+                })
             })
+            // Answer the call
+            // Start receiving the data
             this.props.peer.on('call', (call) => {
                 call.answer();
                 call.on("stream",(incomingStream) => {
                     this.getScreenRef.current!.srcObject = incomingStream;
                 })
             })
-            if(!window.location.href.match(/localhost/)) {
+            
+        })
+    }
+
+    requestControl = () => {
+        let reqControlObj = {event: "request control"}
+        this.state.connection!.send(reqControlObj)
+        this.state.connection!.on("data", (data) => {
+
+            if(data!.reqControl == 'yes') {
+                this.setState({
+                    allowedRemoteControl: true,
+                })
+                
+            }
+        })
+    }
+
+    stopControl() {
+        this.state.connection.send({event: "stop control"})
+        this.state.connection!.on("data",(data) => {
+            if(data!.reqControl == 'no') {
+                this.setState({
+                    allowedRemoteControl: false,
+                })
+            }
+        })
+    }
+
+
+    componentDidUpdate() {
+        if(this.state.allowedRemoteControl == true) {
+            // Only send events if url different than localhost (to not alter development)
+            if(window.location.href.match(/localhost/)) {
                 this.getScreenRef.current!.addEventListener("mousemove",(e) => {
                     const node = e.target as HTMLElement;
                     const rect = node.getBoundingClientRect();
                     let x = e.pageX - rect.left;
                     let y = e.pageY - rect.top;
                     const data = {event:"mousemove",posX: x, posY: y}
-                    connection.send(data)
+                    this.state.connection.send(data)
                 })
             }
 
@@ -56,29 +107,32 @@ export default class WatchScreen extends Component<Props> {
                 const y = e.clientY - targetRect.top;
                 const data = {event: "mouse-click",x: x, y: y, room: this.props.tokenId, leftOrRight: e.which}
                 
-                connection.send(data)
+                this.state.connection.send(data)
             })
 
             document.addEventListener("keyup", (e) => {
                 let obj = {event: "type",key: e.key};
-                connection.send(obj)
+                this.state.connection.send(obj)
             })
             
             document.addEventListener("keydown", (e) => {
                 let obj = {event: "type",key: e.key};
-                connection.send(obj)
+                this.state.connection.send(obj)
             })
-        })
-    }
+        }
 
-    componentDidUpdate() {
-        
     }
 
     render() {
         return (
             <div>
                 <video id="share-video" ref={this.getScreenRef} autoPlay></video>
+                <button onClick={this.requestControl}>Request control</button>
+                {
+                    this.state.allowedRemoteControl ?
+                    <button onClick={this.stopControl}>Stop control</button>
+                    : null
+                }
             </div>
         )
     }
