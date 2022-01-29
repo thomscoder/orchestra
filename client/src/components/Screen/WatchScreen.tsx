@@ -88,7 +88,7 @@ export default class WatchScreen extends Component<Props, State> {
     componentDidUpdate() {
         if(this.state.allowedRemoteControl == true) {
             // Only send events if url different than localhost (to not alter development)
-            if(window.location.href.match(/localhost/)) {
+            if(!window.location.href.match(/localhost/)) {
                 this.getScreenRef.current!.addEventListener("mousemove",(e) => {
                     const node = e.target as HTMLElement;
                     const rect = node.getBoundingClientRect();

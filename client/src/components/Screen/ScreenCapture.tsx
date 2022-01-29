@@ -113,7 +113,7 @@ export default class ScreenCapture extends Component<Props, State> {
                     {
                     this.state.answerReqControlMessage ?
                     <React.Fragment>
-                        <p>User {this.state.users} requested control</p>
+                        <p>User {this.state.users} requested to take control</p>
                         <button type="submit" value="yes" onClick={this.acceptedControl}>Yes</button>
                         <button type="submit" value="no" onClick={this.refusedControl}>No</button>
                     </React.Fragment> 

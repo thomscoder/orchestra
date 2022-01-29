@@ -9,6 +9,9 @@ Built with React and Nodejs
 
 This app is currently a small remote Desktop application in which users can either share their screens or get the screen of other users and control the other end's device.
 
+<img src="https://i.ibb.co/TLtP3DM/Schermata-2022-01-29-alle-17-19-23.png">
+<img src="https://i.ibb.co/xHW8pn7/Schermata-2022-01-29-alle-17-21-45.png">
+
 # How to run it?
 
 The app works over a small local sever written in Go.
@@ -36,12 +39,18 @@ Requirements to run the local server
 
 - Mkcert
 
+On MacOS
+
 ```bash
-# On MacOS
+# Use Hombrew
 $ brew install mkcert
 $ mkcert -install
+```
 
-# On Windows
+On Windows
+
+```bash
+# Use Chocolatey
 $ choco install mkcert
 $ mkcert -install
 ```

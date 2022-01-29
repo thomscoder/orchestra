@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"orchestra/actions"
@@ -59,7 +58,6 @@ func connectionsReader(conn *websocket.Conn) error {
 		// turn the stringified JSON into a Message struct
 		// so we can access the data more easily
 		json.Unmarshal([]byte(receivedMessage), &message)
-		fmt.Println("coordinates", message.PosX, message.PosY)
 		switch message.Event {
 		case "mousemove":
 			actions.MouseMove(message.PosX, message.PosY)
