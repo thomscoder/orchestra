@@ -2,8 +2,11 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
+
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -39,4 +42,15 @@ func CreateServerEnvFile() {
 	}
 	file.WriteString("HOST=localhost\n")
 	file.WriteString("PORT=" + pNumber + "\n")
+}
+
+// Read the generated env file
+func GetEnvVariables() (string, string) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("An error occurred loading the environment variables")
+	}
+	host := os.Getenv("HOST")
+	port := ":" + os.Getenv("PORT")
+	return host, port
 }

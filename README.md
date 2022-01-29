@@ -35,14 +35,17 @@ Once "Server" is clicked the client will establish a web socket to your local se
 Requirements to run the local server
 
 - Mkcert
+
 ```bash
 # On MacOS
 $ brew install mkcert
 $ mkcert -install
+
 # On Windows
 $ choco install mkcert
 $ mkcert -install
 ```
+
 - Go
 
 - Windows -> Microsoft Visual C++ Redistributable
