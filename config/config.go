@@ -14,6 +14,12 @@ var (
 	err  error
 )
 
+func DefaultTexts(COLOR1 string, COLOR2 string, RESET string) {
+	fmt.Printf("\x1b[2J")
+	fmt.Printf("\x1b[H")
+	fmt.Printf("%vORCHESTRA %vmade by @thomscoder\n%v", COLOR1, COLOR2, RESET)
+}
+
 // Create the certificates
 func createCA() error {
 	cmd := exec.Command("sh", "-c", "cd certificates && mkcert localhost")

@@ -65,10 +65,33 @@ export default class WatchScreen extends Component<Props, State> {
         this.state.connection!.on("data", (data) => {
 
             if(data!.reqControl == 'yes') {
-                this.setState({
-                    allowedRemoteControl: true,
+                // Only send events if url different than localhost (to not alter development)
+                if(!window.location.href.match(/localhost/)) {
+                    this.getScreenRef.current!.addEventListener("mousemove",(e) => {
+                        const node = e.target as HTMLElement;
+                        const rect = node.getBoundingClientRect();
+                        let x = e.pageX - rect.left;
+                        let y = e.pageY - rect.top;
+                        const data = {event:"mousemove",posX: x, posY: y}
+                        this.state.connection.send(data)
+                    })
+                }
+
+                this.getScreenRef.current!.addEventListener("click", (e) => {
+                    const target = e.target as HTMLElement;
+                    const targetRect = target.getBoundingClientRect();
+
+                    const x = e.clientX - targetRect.left;
+                    const y = e.clientY - targetRect.top;
+                    const data = {event: "mouse-click",x: x, y: y, room: this.props.tokenId, leftOrRight: e.which}
+                    
+                    this.state.connection.send(data)
                 })
                 
+                document.addEventListener("keydown", (e) => {
+                    let obj = {event: "type",key: e.key};
+                    this.state.connection.send(obj)
+                })
             }
         })
     }
@@ -86,40 +109,7 @@ export default class WatchScreen extends Component<Props, State> {
 
 
     componentDidUpdate() {
-        if(this.state.allowedRemoteControl == true) {
-            // Only send events if url different than localhost (to not alter development)
-            if(!window.location.href.match(/localhost/)) {
-                this.getScreenRef.current!.addEventListener("mousemove",(e) => {
-                    const node = e.target as HTMLElement;
-                    const rect = node.getBoundingClientRect();
-                    let x = e.pageX - rect.left;
-                    let y = e.pageY - rect.top;
-                    const data = {event:"mousemove",posX: x, posY: y}
-                    this.state.connection.send(data)
-                })
-            }
-
-            this.getScreenRef.current!.addEventListener("click", (e) => {
-                const target = e.target as HTMLElement;
-                const targetRect = target.getBoundingClientRect();
-
-                const x = e.clientX - targetRect.left;
-                const y = e.clientY - targetRect.top;
-                const data = {event: "mouse-click",x: x, y: y, room: this.props.tokenId, leftOrRight: e.which}
-                
-                this.state.connection.send(data)
-            })
-
-            document.addEventListener("keyup", (e) => {
-                let obj = {event: "type",key: e.key};
-                this.state.connection.send(obj)
-            })
             
-            document.addEventListener("keydown", (e) => {
-                let obj = {event: "type",key: e.key};
-                this.state.connection.send(obj)
-            })
-        }
 
     }
 

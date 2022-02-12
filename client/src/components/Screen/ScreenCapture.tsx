@@ -55,22 +55,21 @@ export default class ScreenCapture extends Component<Props, State> {
                 })
                 conn.on('open', () => {
                     conn.on('data', (data) => {
-                        // If data is request control message then activate the "popup"
-                        if(data.event == "stop control") {
-                            this.state.connection.send({reqControl: "no"})
+                        switch(data.event) {
+                            case "stop control": this.state.connection.send({reqControl: "no"})
                             this.setState({
                                 answerReqControlMessage: false,
                             });
-                            return;
-                        }
-                        if(data.event == "request control") {
+                            break;
+                            case "request control": 
                             this.setState({
                                 answerReqControlMessage: true,
                             });
-                            return;
+                            break;
+                            default: this.props.socket.send(JSON.stringify(data));
+                            conn.send('Data ok!');
+                            break;
                         }
-                        this.props.socket.send(JSON.stringify(data));
-                        conn.send('Data ok!');
                         if(!data.event || (data.event !== 'mousemove' && data.event !== 'mouse-click' && data.event !== 'type')) this.props.peer.call(data.userId, stream!);
                         this.setState({
                             users: data.userId
