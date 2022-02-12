@@ -16,7 +16,7 @@ func MouseClick() {
 }
 
 func KeyType(key string) {
-	robotgo.KeyPress(key)
+	robotgo.KeyTap(key)
 	log.Println("key tap")
 }
 

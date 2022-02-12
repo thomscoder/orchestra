@@ -87,11 +87,6 @@ export default class WatchScreen extends Component<Props, State> {
                     
                     this.state.connection.send(data)
                 })
-
-                document.addEventListener("keyup", (e) => {
-                    let obj = {event: "type",key: e.key};
-                    this.state.connection.send(obj)
-                })
                 
                 document.addEventListener("keydown", (e) => {
                     let obj = {event: "type",key: e.key};

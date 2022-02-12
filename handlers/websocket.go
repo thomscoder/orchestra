@@ -31,6 +31,7 @@ func connectionsReader(conn *websocket.Conn) error {
 		Event string
 		PosX  float64
 		PosY  float64
+		Key   string
 	}
 	var (
 		receivedMessage string
@@ -63,6 +64,9 @@ func connectionsReader(conn *websocket.Conn) error {
 			break
 		case "mouse-click":
 			actions.MouseClick()
+			break
+		case "type":
+			actions.KeyType(message.Key)
 			break
 		case "scroll":
 			actions.Scroll(message.PosX, message.PosY)
