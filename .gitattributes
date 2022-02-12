@@ -1,4 +1,0 @@
-*.html linguist-detectable=false
-*.yml linguist-detectable=false
-*.mod linguist-language=Go
-*.sum linguist-language=Go
