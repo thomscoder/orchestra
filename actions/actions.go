@@ -1,26 +1,31 @@
 package actions
 
 import (
-	"log"
+	"orchestra/config"
 
 	"github.com/go-vgo/robotgo"
 )
 
 func MouseMove(x float64, y float64) {
 	robotgo.Move(int(x), int(y))
+	mouseCoordinates := make(map[string]int)
+	mouseCoordinates["x"] = int(x)
+	mouseCoordinates["y"] = int(y)
+	config.WriteLogs("Moving mouse ->", mouseCoordinates)
 }
 
 func MouseClick() {
 	robotgo.Click("left", true)
-	log.Println("mouse click")
+	config.WriteLogs("Mouse Click ->", "left")
 }
 
 func KeyType(key string) {
 	robotgo.KeyTap(key)
-	log.Println("key tap")
+	config.WriteLogs("Pressed key ->", key)
 }
 
 func Scroll(x float64, y float64) {
 	robotgo.Scroll(int(x), int(y))
-	log.Println("scroll")
+	scrollCoordinates := make(map[float64]int)
+	config.WriteLogs("Scroll ->", scrollCoordinates)
 }
