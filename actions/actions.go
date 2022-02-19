@@ -20,7 +20,16 @@ func MouseClick() {
 }
 
 func KeyType(key string) {
-	robotgo.KeyTap(key)
+	switch key {
+	case "Enter":
+		robotgo.KeyTap("enter")
+		break
+	case "Backspace":
+		robotgo.KeyTap("backspace")
+	default:
+		robotgo.KeyTap(key)
+		break
+	}
 	config.WriteLogs("Pressed key ->", key)
 }
 
