@@ -10,6 +10,7 @@
     "dev": "concurrently \"go run server.go\" \"yarn run client\"",
     "server": "go run server.go",
     "build-server": "go build server.go",
+    "test": "go test ./...",
     "build": "cd client && yarn build",
     "postinstall": "cd client && yarn install"
   },

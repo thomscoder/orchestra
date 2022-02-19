@@ -21,8 +21,8 @@ func DefaultTexts(COLOR1 string, COLOR2 string, RESET string) {
 }
 
 // Create the certificates
-func createCA() error {
-	cmd := exec.Command("sh", "-c", "cd certificates && mkcert localhost")
+func createCA(firstPart string, secondPart string, thirdPart string) error {
+	cmd := exec.Command(firstPart, secondPart, thirdPart)
 	if _, err := cmd.Output(); err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func getPortNumber() string {
 
 // Write the server .env
 func CreateServerEnvFile() {
-	go createCA()
+	go createCA("sh", "-c", "cd certificates && mkcert localhost")
 	pNumber := getPortNumber()
 	file, err = os.Create(".env")
 	defer file.Close()
