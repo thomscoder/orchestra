@@ -1,9 +1,9 @@
 # Orchestra
 
-I'm building this app as a project during my learning of Typescript, PWAs, Networking and CyberSec.
+I'm building this app as a project during my learning of Typescript, Go and CyberSec.
 The goal of this app is to simplify the sharing of small live sessions across devices.
 
-Built with React and Nodejs
+Built with React and Go
 
 # How it works
 
@@ -13,7 +13,7 @@ This app currently allows users to either share their screens or get the screen 
 
 # How to run it?
 
-The app works over a small local sever written in Go.
+The app works over a small local web sever written in Go and a UI made with React.
 The client is hosted on Vercel while the peer server is hosted on Heroku (simply add your own server via either heroku buttons, peerjs docs or leaving it blank for peerjs to use its own default servers -> One of peerjs default servers is already set up in the .env-sample file).
 
 <h1>How to share your screen</h1>
@@ -22,7 +22,6 @@ The client is hosted on Vercel while the peer server is hosted on Heroku (simply
 - Paste the given wss URL from the server in the respective field on the client.
 
 Once "Server" is clicked the client will establish a web socket to your local server
-(you can check in the console if there's no error)
 
 - Now click share screen and share the generated ID.
 
@@ -41,7 +40,7 @@ Requirements to run the local server
 On MacOS
 
 ```bash
-# Use Hombrew
+# Use Homebrew
 $ brew install mkcert
 $ mkcert -install
 ```
@@ -66,6 +65,6 @@ Open a new branch describing the feature, styling or the bug fix (e.g. feature/a
 
 # Current features
 
-- Installable
+- Downloadable
 - Room based sreen sharing
-- Remote control
+- Remote control (upon request)
