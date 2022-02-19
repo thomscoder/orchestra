@@ -8,6 +8,8 @@
   "scripts": {
     "client": "cd client && yarn start",
     "dev": "concurrently \"go run server.go\" \"yarn run client\"",
+    "server": "go run server.go",
+    "build-server": "go build server.go",
     "build": "cd client && yarn build",
     "postinstall": "cd client && yarn install"
   },
@@ -15,7 +17,6 @@
     "yarn": "^1.22.17"
   },
   "devDependencies": {
-    "concurrently": "^7.0.0",
-    "nodemon": "^2.0.15"
+    "concurrently": "^7.0.0"
   }
 }
